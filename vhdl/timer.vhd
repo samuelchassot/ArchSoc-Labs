@@ -52,48 +52,46 @@ begin
     irq <= s_TO and s_ITO;
 
 
-
-    reset : process( reset_n )
+    clock : process( clk, reset_n, s_start, s_stop, counter, s_run)
     begin
-          if reset_n = '0' then
+        if reset_n = '0' then
             status <= (others => '0');                    
             control <= (others => '0');
             period <= (others => '0');
             counter <= (others => '0');
-        end if ;      
+        end if ;     
+            
+            
+        --start/stop control
 
-    end process ; -- reset
+        if s_start = '1' then
+            status(1) <= '1';
+            control(2) <= '0';
+        end if ;
 
+        if s_stop = '1' then
+            status(1) <= '0';
+            control(3) <= '0';
+        end if ;
 
-    clock : process( clk )
-    begin
-        if (rising_edge(clk)) then
+        --timeout
+        if counter = c_zero and s_run = '1' then
+            status(0) <= '1';
+
+            if s_cont = '0' then
+                status(1) <= '0';            -- setting run to 0
+            end if;
+        end if ;
+
+        if (rising_edge(clk) and reset_n = '1') then
             --decrementing counter
             if s_run = '1' then
                 counter <= s_newCounter;
             end if ;
 
-            --start/stop control
-
-            if s_start = '1' then
-                status(1) <= '1';
-                control(2) <= '0';
-            end if ;
-
-            if s_stop = '1' then
-                status(1) <= '0';
-                control(3) <= '0';
-            end if ;
-
-            --timeout
             if counter = c_zero then
-                status(0) <= '1';
                 counter <= period;
-
-                if s_cont = '0' then
-                    status(1) <= '0';            -- setting run to 0
-                end if;
-            end if ;
+            end if;
 
 
             --enable
@@ -127,7 +125,7 @@ begin
     end process ; -- clock
 
 
-    read_proc : process( enable_read, s_address)
+    read_proc : process( enable_read, s_address, clk)
         begin
             rddata <= (others => 'Z');
             if(enable_read = '1') then
