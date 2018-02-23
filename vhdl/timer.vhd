@@ -51,116 +51,107 @@ begin
     
     irq <= s_TO and s_ITO;
 
-    reset : process( reset_n, clk )
+
+
+    reset : process( reset_n )
     begin
-        if reset_n = '0' then
-            status <= (others => '0');
+          if reset_n = '0' then
+            status <= (others => '0');                    
             control <= (others => '0');
             period <= (others => '0');
             counter <= (others => '0');
-            end if ;
+        end if ;      
 
     end process ; -- reset
 
 
-    timeout : process( counter )
+    clock : process( clk )
     begin
-        if counter = c_zero then
-            status(0) <= '1';
-            counter <= period;
-            if s_cont = '0' then
-                status(1) <= '0';            -- setting run to 0
-            end if ;
-        end if ;
-    end process ; -- timeout
-
-
-    start : process( s_start )
-    begin
-        if(rising_edge(s_start)) then
-            status(1) <= '1';               -- setting run to 1
-            control(2) <= '0';
-        end if;
-    end process ; -- start
-    
-    stop : process( s_stop )
-    begin
-        if(rising_edge(s_stop)) then
-            status(1) <= '0';               -- setting run to 0
-            control(3) <= '0';
-        end if;
-    end process ; -- stop
-
-    period_changes : process( period )
-    begin
-        status(1) <= '0';                    -- setting run to 0
-        counter <= period;
-    end process ; -- period_changes
-
-    count : process( s_run, clk )
-    begin
-    
-        if rising_edge(clk) then
+        if (rising_edge(clk)) then
+            --decrementing counter
             if s_run = '1' then
                 counter <= s_newCounter;
             end if ;
-        end if ;
 
-    end process ; -- count
+            --start/stop control
 
-    enable_clk : process( clk )
-	begin
-		if(rising_edge(clk)) then
-			enable_read <= cs and read;
-			s_address <= address;
+            if s_start = '1' then
+                status(1) <= '1';
+                control(2) <= '0';
+            end if ;
 
-		end if;
-		
-	end process ; -- enable_clk
+            if s_stop = '1' then
+                status(1) <= '0';
+                control(3) <= '0';
+            end if ;
 
-	read_proc : process( enable_read, s_address)
-	begin
-		rddata <= (others => 'Z');
-		if(enable_read = '1') then
-			case( s_address ) is
+            --timeout
+            if counter = c_zero then
+                status(0) <= '1';
+                counter <= period;
+
+                if s_cont = '0' then
+                    status(1) <= '0';            -- setting run to 0
+                end if;
+            end if ;
+
+
+            --enable
+            enable_read <= cs and read;
+            s_address <= address;
+
+            --write
+
+            if(cs = '1' and write = '1') then
+                    case (address) is 
+                        when "00" =>
+                            if wrdata(0) = '0' then
+                                status(0) <= '0';
+                            end if ;
+                        when "01" =>
+                            control(3 downto 0) <= wrdata(3 downto 0);
+                        when "10" =>
+                            period <= wrdata;
+                            status(1) <= '0';       --run = 0
+                            counter <= wrdata;
+                        when others =>
+                    end case;
+          end if;
+
+
+
+        end if;
+
+
+        
+    end process ; -- clock
+
+
+    read_proc : process( enable_read, s_address)
+        begin
+            rddata <= (others => 'Z');
+            if(enable_read = '1') then
+                case( s_address ) is
             
-                when "00" =>
-                    rddata <= c_zero(31 downto 2) & status(1 downto 0);
-                when "01" =>
-                    rddata <= c_zero(31 downto 2) & control(1 downto 0);
-                when "10" =>
-                    rddata <= period;
-                when "11" =>
-                    rddata <= counter;
-                when others =>
-                    rddata <= (others => 'Z');
-            
-            end case ;
-		end if;
-		
-    end process ; -- read_proc
-    
-    write_proc : process( clk )
-	begin
-		if(rising_edge(clk)) then
-			if(cs = '1' and write = '1') then
-                case (s_address) is 
-				    when "00" =>
-                        status(0) <= wrdata(0);
+                    when "00" =>
+                        rddata <= c_zero(31 downto 2) & status(1 downto 0);
                     when "01" =>
-                        control(3 downto 0) <= wrdata(3 downto 0);
+                        rddata <= c_zero(31 downto 2) & control(1 downto 0);
                     when "10" =>
-                        period <= "00000000000000000000000000000001";
+                        rddata <= period;
+                    when "11" =>
+                        rddata <= counter;
                     when others =>
-                end case;
-			end if;
-		end if;
-
-	end process ; -- write_proc
-
-
-
-   
+                        rddata <= (others => 'Z');
+                
+                end case ;
+            end if;
     
+    end process ; -- read_proc
+
+
+
+
+
 
 end synth;
