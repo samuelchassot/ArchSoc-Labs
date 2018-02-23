@@ -68,8 +68,8 @@ begin
         if counter = c_zero then
             status(0) <= '1';
             counter <= period;
-            if s_cont= '0' then
-                status(1) = '0';            -- setting run to 0
+            if s_cont = '0' then
+                status(1) <= '0';            -- setting run to 0
             end if ;
         end if ;
     end process ; -- timeout
@@ -93,7 +93,7 @@ begin
 
     period_changes : process( period )
     begin
-        status(1) = '0';                    -- setting run to 0
+        status(1) <= '0';                    -- setting run to 0
         counter <= period;
     end process ; -- period_changes
 
@@ -118,7 +118,7 @@ begin
 		
 	end process ; -- enable_clk
 
-	read_proc : process( enable_read, s_address, RAM_mem )
+	read_proc : process( enable_read, s_address)
 	begin
 		rddata <= (others => 'Z');
 		if(enable_read = '1') then
@@ -133,7 +133,7 @@ begin
                 when "11" =>
                     rddata <= counter;
                 when others =>
-                    (others => 'Z')
+                    rddata <= (others => 'Z');
             
             end case ;
 		end if;
@@ -144,13 +144,15 @@ begin
 	begin
 		if(rising_edge(clk)) then
 			if(cs = '1' and write = '1') then
-				when "00" =>
-                    status(0) <= wrdata(0);
-                when "01" =>
-                    control(3 downto 0) <= wrdata(3 downto 0);
-                when "10" =>
-                    period <= wrdata;
-                when others =>
+                case (s_address) is 
+				    when "00" =>
+                        status(0) <= wrdata(0);
+                    when "01" =>
+                        control(3 downto 0) <= wrdata(3 downto 0);
+                    when "10" =>
+                        period <= wrdata;
+                    when others =>
+                end case;
 			end if;
 		end if;
 
