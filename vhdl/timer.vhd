@@ -30,6 +30,7 @@ architecture synth of timer is
     signal s_start : std_logic;
     signal s_stop : std_logic;
     signal s_run : std_logic;
+    constant c_zero : std_logic_vector (31 downto 0) := (others => '0');
 
 
 begin
@@ -58,7 +59,7 @@ begin
 
     timeout : process( counter )
     begin
-        if counter = (others => '0') then
+        if counter = c_zero then
             status(0) <= '1';
             counter <= period;
         end if ;
