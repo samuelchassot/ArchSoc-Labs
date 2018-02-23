@@ -51,7 +51,7 @@ begin
     
     irq <= s_TO and s_ITO;
 
-    reset : process( reset_n )
+    reset : process( reset_n, clk )
     begin
         if reset_n = '0' then
             status <= (others => '0');
@@ -150,7 +150,7 @@ begin
                     when "01" =>
                         control(3 downto 0) <= wrdata(3 downto 0);
                     when "10" =>
-                        period <= wrdata;
+                        period <= "00000000000000000000000000000001";
                     when others =>
                 end case;
 			end if;
