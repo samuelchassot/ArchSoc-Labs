@@ -92,11 +92,11 @@ main:
 	stw		zero, RAM+4(zero)
 	stw		zero, RAM+8(zero)
 
+loop:
 	ldw		t0, RAM(zero)
 	addi	t0, t0, 1
 	stw		t0, RAM(zero)
-	br main
-	;TODO
+	br loop
 	;implements 3 counters
 
 
