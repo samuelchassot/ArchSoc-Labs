@@ -46,9 +46,9 @@ continue:
 
 ; increments second counter, resets the timer (set TO bit to 0 to ACK the IRQ and reset the timer)
 timer_irs:
-	ldw 	t0, RAM+4(zero)		; load the second count in t0
+	ldw 	t0, LEDS+4(zero)		; load the second count in t0
 	addi	t0, t0, 1			; increment the second timer
-	stw		t0, RAM+4(zero)		; write back the second counter in memory
+	stw		t0, LEDS+4(zero)		; write back the second counter in memory
 	stw		zero, TIMER(zero)	; write 0 in the status register (add = 0) in the TIMER to ACK the IRQ and reset it 
 	ret	
 	
@@ -56,7 +56,7 @@ timer_irs:
 ;increments/decrements third counter, set edgecapture to 0
 button_irs:
 	ldw		t3, BUTTONS+4(zero)	; t3 = edgecapture register
-	ldw		t0, RAM+8(zero)		; loads third counter in t0
+	ldw		t0, LEDS+8(zero)		; loads third counter in t0
 	andi	t2, t3, 1			; isolate in t2 the edgecapture for button 0
 	addi	t1, zero, 1
 	bne 	t2, t1, decr_test
@@ -70,7 +70,7 @@ decr_test:
 
 end_b_irs:
 	stw		zero, BUTTONS+4(zero) ; resets edgecapture
-	stw		t0, RAM+8(zero)		;store the third counter
+	stw		t0, LEDS+8(zero)		;store the third counter
 	ret
 
 
@@ -88,14 +88,14 @@ main:
 	addi	t0, zero, 100
 	stw		t0, TIMER + 8(zero)		;sets timer period to 100
 
-	stw		zero, RAM(zero)			;initialize counters
-	stw		zero, RAM+4(zero)
-	stw		zero, RAM+8(zero)
+	stw		zero, LEDS(zero)			;initialize counters
+	stw		zero, LEDS+4(zero)
+	stw		zero, LEDS+8(zero)
 
 loop:
-	ldw		t0, RAM(zero)
+	ldw		t0, LEDS(zero)
 	addi	t0, t0, 1
-	stw		t0, RAM(zero)
+	stw		t0, LEDS(zero)
 	br loop
 	;implements 3 counters
 
