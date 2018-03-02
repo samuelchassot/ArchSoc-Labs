@@ -75,12 +75,13 @@ toggle_test:
 	addi 	t1, zero, 4
 	ldw		t2, TIMER(zero)
 	andi	t2, t2, 2			;isolate RUN
+	srli	t2, t2, 1
 	sll		t1, t1, t2
 	ldw		t2, TIMER+4(zero)
 	andi	t2, t2, 3
 	or		t1, t1, t2
 	stw		t1, TIMER+4(zero)
-	
+
 
 end_b_irs:
 	stw		zero, BUTTONS+4(zero) ; resets edgecapture
