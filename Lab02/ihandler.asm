@@ -43,20 +43,32 @@ continue:
 	eret
 ;End interrupts_handler
 
+; increments second counter, resets the timer (set TO bit to 0 to ACK the IRQ and reset the timer)
 timer_irs:
 	ldw 	t0, RAM+4(zero)		; load the second count in t0
 	addi	t0, t0, 1			; increment the second timer
 	stw		t0, RAM+4(zero)		; write back the second counter in memory
 	stw		zero, TIMER(zero)	; write 0 in the status register (add = 0) in the TIMER to ACK the IRQ and reset it 
 	ret	
-; increments second counter, resets the timer (set TO bit to 0 to ACK the IRQ and reset the timer)
 	
 
-
+;increments/decrements third counter, set edgecapture to 0
 button_irs:
 	ldw		t3, BUTTONS+4(zero)	; t3 = edgecapture register
-	andi	t2, t3, 1			;isolate in t2 the edgecapture for button 0 
-;incrementd/decrements third counter, reset edgecapture
+	ldw		t0, RAM+8(zero)		; loads third counter in t0
+	andi	t2, t3, 1			; isolate in t2 the edgecapture for button 0
+	addi	t1, zero, 1
+	bne 	t2, t1, decr_test
+	addi 	t0, t0, 1			; increments counter if button 0 is pressed
+
+decr_test:
+	andi 	t2, t3, 2			;isolate in t2 the edgecapture for button 1
+	addi	t1, zero, 2
+	bne 	t2, t1, end_b_irs
+	addi 	t0, t0, -1			;decrements counter if button 1 is pressed
+
+end_b_irs:
+	stw		zero, BUTTONS+4(zero) ; resets edgecapture
 	ret
 
 
