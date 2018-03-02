@@ -18,12 +18,14 @@ interrupt_handler:
 	stw 	t3, 0(sp)
 
 ;look if the timer request an interrupt
+timer_check:
 	rdctl	ipending, s0
 	andi	t1, s0, 1			;isolating timer interrupts
 	addi	t2, zero, 1			;t2 = 1
 	bne		t1, t2,  button_check
 	call	timer_irs
 
+;look if the button request an interrupt
 button_check:
 	andi	t1, s0, 4			;isolating button interrupts
 	addi 	t2, zero, 4			;t2 = 4
