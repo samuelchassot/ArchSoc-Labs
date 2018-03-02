@@ -86,6 +86,15 @@ main:
 	wrctl	ienable, t0				;enabling interrupts from Timer and buttons
 	addi	t0, zero, 100
 	stw		t0, TIMER + 8(zero)		;sets timer period to 100
+
+	stw		zero, RAM(zero)			;initialize counters
+	stw		zero, RAM+4(zero)
+	stw		zero, RAM+8(zero)
+
+	ldw		t0, RAM(zero)
+	addi	t0, t0, 1
+	stw		t0, RAM(zero)
+	br main
 	;TODO
 	;implements 3 counters
 
