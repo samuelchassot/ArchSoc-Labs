@@ -81,9 +81,7 @@ end_b_irs:
 
 ;------------------------------------------------------------------------------
 main:
-	addi 	sp, zero, 0xFF
-	slli 	sp, sp, 8
-	addi 	sp, sp, 0xFF
+	addi 	sp, zero, 0x1FFF
 	addi	t0,	zero, 1
 	wrctl	status, t0				;enabling interrupts
 	addi 	t0, zero, 5				
