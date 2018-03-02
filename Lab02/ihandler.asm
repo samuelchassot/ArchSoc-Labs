@@ -40,10 +40,11 @@ continue:
 ;End interrupts_handler
 
 timer_irs:
-	ldw 	t0, TIMER+4(zero)	; load the second timer in t0
+	ldw 	t0, RAM+4(zero)		; load the second count in t0
 	addi	t0, t0, 1			; increment the second timer
-	stw		t0, TIMER+4(zero)	; write back the second timer in memory
-	stw		zero, 
+	stw		t0, RAM+4(zero)		; write back the second counter in memory
+	stw		zero, TIMER(zero)	; write 0 in the status register (add = 0) in the TIMER to ACK the IRQ and reset it 
+	br		continue 			; ???? maybe the buttons test to handle more than one irs per cycle 
 	
 ;increments second counter, resets the timer (set TO bit to 0 to ACK the IRQ and reset the timer)
 	ret
