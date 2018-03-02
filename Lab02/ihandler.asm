@@ -1,6 +1,7 @@
 .equ 	LEDS, 		0x2000
 .equ	TIMER, 		0x2020
 .equ	BUTTONS, 	0x2020
+.equ	RAM,		0x1000
 
 
 start: 
@@ -15,6 +16,7 @@ interrupt_handler:
 	stw		t1, 4(sp)
 	stw		t2, 0(sp)
 
+;look if the timer request an interrupt
 	rdctl	ipending, s0
 	andi	t1, s0, 1			;isolating timer interrupts
 	addi	t2, zero, 1			;t2 = 1
@@ -38,8 +40,12 @@ continue:
 ;End interrupts_handler
 
 timer_irs:
-;TODO
-;increments second counter, resets the timer
+	ldw 	t0, TIMER+4(zero)	; load the second timer in t0
+	addi	t0, t0, 1			; increment the second timer
+	stw		t0, TIMER+4(zero)	; write back the second timer in memory
+	stw		zero, 
+	
+;increments second counter, resets the timer (set TO bit to 0 to ACK the IRQ and reset the timer)
 	ret
 
 
