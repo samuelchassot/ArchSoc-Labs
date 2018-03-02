@@ -81,13 +81,14 @@ end_b_irs:
 
 ;------------------------------------------------------------------------------
 main:
+	addi 	sp, zero, 0xFFFF
 	addi	t0,	zero, 1
 	wrctl	status, t0				;enabling interrupts
 	addi 	t0, zero, 5				
 	wrctl	ienable, t0				;enabling interrupts from Timer and buttons
 	addi	t0, zero, 100
 	stw		t0, TIMER + 8(zero)		;sets timer period to 100
-	addi	t0, zero, 6
+	addi	t0, zero, 7
 	stw 	t0, TIMER+4(zero)		;start the timer and set continue
 
 	stw		zero, LEDS(zero)			;initialize counters
