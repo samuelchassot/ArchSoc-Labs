@@ -7,7 +7,7 @@
 start: 
 	br main
 
-
+;------------------------------------------------------------------------------
 ;Start interrupts_handler
 interrupt_handler:
 	addi	sp, sp, -20
@@ -42,6 +42,7 @@ continue:
 	addi	ea, ea, -4
 	eret
 ;End interrupts_handler
+;------------------------------------------------------------------------------
 
 ; increments second counter, resets the timer (set TO bit to 0 to ACK the IRQ and reset the timer)
 timer_irs:
@@ -77,7 +78,7 @@ end_b_irs:
 
 
 
-
+;------------------------------------------------------------------------------
 main:
 	addi	t0,	zero, 1
 	wrctl	status, t0				;enabling interrupts
