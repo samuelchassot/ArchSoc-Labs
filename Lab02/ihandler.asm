@@ -1,6 +1,6 @@
 .equ 	LEDS, 		0x2000
 .equ	TIMER, 		0x2020
-.equ	BUTTONS, 	0x2020
+.equ	BUTTONS, 	0x2030
 .equ	RAM,		0x1000
 
 
@@ -10,11 +10,12 @@ start:
 
 ;Start interrupts_handler
 interrupt_handler:
-	addi	sp, sp, -16
-	stw		s0, 12(sp)
-	stw		t0, 8(sp)
-	stw		t1, 4(sp)
-	stw		t2, 0(sp)
+	addi	sp, sp, -20
+	stw		s0, 16(sp)
+	stw		t0, 12(sp)
+	stw		t1, 8(sp)
+	stw		t2, 4(sp)
+	stw 	t3, 0(sp)
 
 ;look if the timer request an interrupt
 	rdctl	ipending, s0
@@ -30,11 +31,12 @@ button_check:
 	call	button_irs
 
 continue:	
-	ldw		s0, 12(sp)
-	ldw		t0, 8(sp)
-	ldw		t1, 4(sp)
-	ldw		t2, 0(sp)
-	addi	sp, sp, 16
+	ldw		s0, 16(sp)
+	ldw		t0, 12(sp)
+	ldw		t1, 8(sp)
+	ldw		t2, 4(sp)
+	ldw		t3, 0(sp)
+	addi	sp, sp, 20
 	addi	ea, ea, -4
 	eret
 ;End interrupts_handler
@@ -44,14 +46,14 @@ timer_irs:
 	addi	t0, t0, 1			; increment the second timer
 	stw		t0, RAM+4(zero)		; write back the second counter in memory
 	stw		zero, TIMER(zero)	; write 0 in the status register (add = 0) in the TIMER to ACK the IRQ and reset it 
-	br		continue 			; ???? maybe the buttons test to handle more than one irs per cycle 
+	ret	
+; increments second counter, resets the timer (set TO bit to 0 to ACK the IRQ and reset the timer)
 	
-;increments second counter, resets the timer (set TO bit to 0 to ACK the IRQ and reset the timer)
-	ret
 
 
 button_irs:
-;TODO
+	ldw		t3, BUTTONS+4(zero)	; t3 = edgecapture register
+	andi	t2, t3, 1			;isolate in t2 the edgecapture for button 0 
 ;incrementd/decrements third counter, reset edgecapture
 	ret
 
