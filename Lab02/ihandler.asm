@@ -70,6 +70,7 @@ decr_test:
 
 end_b_irs:
 	stw		zero, BUTTONS+4(zero) ; resets edgecapture
+	stw		t0, RAM+8(zero)		;store the third counter
 	ret
 
 
