@@ -19,7 +19,7 @@ interrupt_handler:
 
 ;look if the timer request an interrupt
 timer_check:
-	rdctl	ipending, s0
+	rdctl	s0, ipending
 	andi	t1, s0, 1			;isolating timer interrupts
 	addi	t2, zero, 1			;t2 = 1
 	bne		t1, t2,  button_check
@@ -87,6 +87,8 @@ main:
 	wrctl	ienable, t0				;enabling interrupts from Timer and buttons
 	addi	t0, zero, 100
 	stw		t0, TIMER + 8(zero)		;sets timer period to 100
+	addi	t0, zero, 6
+	stw 	t0, TIMER+4(zero)		;start the timer and set continue
 
 	stw		zero, RAM(zero)			;initialize counters
 	stw		zero, RAM+4(zero)
