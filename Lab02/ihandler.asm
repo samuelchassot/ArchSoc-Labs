@@ -47,6 +47,17 @@ continue:
 timer_irs:
 	ldw 	t0, RAM+4(zero)		; load the second count in t0
 	addi	t0, t0, 1			; increment the second timer
+
+	addi	t1,	zero,16		
+	blt		t0, t1, end_timer_irs
+	add 	t0, zero, zero
+
+end_timer_irs:
+	slli 	t1, t0, 2
+	ldw		t1, font_data(t1)
+	stw		t1,	LEDS+4(zero)
+
+
 	stw		t0, RAM+4(zero)		; write back the second counter in memory
 	stw		zero, TIMER(zero)	; write 0 in the status register (add = 0) in the TIMER to ACK the IRQ and reset it 
 	ret	
@@ -60,12 +71,17 @@ button_irs:
 	addi	t1, zero, 1
 	bne 	t2, t1, decr_test
 	addi 	t0, t0, 1			; increments counter if button 0 is pressed
+	addi	t1,	zero,16		
+	blt		t0, t1, decr_test
+	add 	t0, zero, zero
 
 decr_test:
 	andi 	t2, t3, 2			;isolate in t2 the edgecapture for button 1
 	addi	t1, zero, 2
 	bne 	t2, t1, toggle_test
 	addi 	t0, t0, -1			;decrements counter if button 1 is pressed
+	bge		t0, zero, toggle_test
+	addi	t0,	zero, 15
 
 toggle_test:
 	andi 	t2, t3, 4			;isolate in t2 the edgecapture for button 2
@@ -84,6 +100,9 @@ toggle_test:
 
 end_b_irs:
 	stw		zero, BUTTONS+4(zero) ; resets edgecapture
+	slli 	t1, t0, 2
+	ldw		t1, font_data(t1)
+	stw		t1,	LEDS+4(zero)
 	stw		t0, RAM+8(zero)		;store the third counter
 	ret
 
@@ -110,6 +129,9 @@ main:
 	stw		zero, LEDS(zero)			;initialize counters
 	stw		zero, RAM+4(zero)
 	stw		zero, RAM+8(zero)
+	ldw		t0,	font_data(zero)
+	stw		t0,	LEDS+4(zero)
+	stw		t0,	LEDS+8(zero)
 
 loop:
 	ldw		t0, LEDS(zero)
