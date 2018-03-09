@@ -102,7 +102,7 @@ end_b_irs:
 	stw		zero, BUTTONS+4(zero) ; resets edgecapture
 	slli 	t1, t0, 2
 	ldw		t1, font_data(t1)
-	stw		t1,	LEDS+4(zero)
+	stw		t1,	LEDS+8(zero)
 	stw		t0, RAM+8(zero)		;store the third counter
 	ret
 
