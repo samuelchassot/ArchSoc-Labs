@@ -59,31 +59,9 @@ begin
             control <= (others => '0');
             period  <= (others => '0');
             counter <= (others => '0');
-        end if;
 
 
-        --start/stop control
-
-        if s_start = '1' then
-            status(1)  <= '1';
-            control(2) <= '0';
-        end if;
-
-        if s_stop = '1' then
-            status(1)  <= '0';
-            control(3) <= '0';
-        end if;
-
-        --timeout
-        if counter = c_zero and s_run = '1' then
-            status(0) <= '1';
-
-            if s_cont = '0' then
-                status(1) <= '0';       -- setting run to 0
-            end if;
-        end if;
-
-        if (rising_edge(clk) and reset_n = '1') then
+        elsif (rising_edge(clk)) then
             --decrementing counter
             if s_run = '1' then
                 counter <= s_newCounter;
@@ -114,10 +92,31 @@ begin
                             counter   <= wrdata;
                         when others =>
                     end case;
-          end if;
+            end if;
 
 
 
+        end if;
+
+        --start/stop control
+
+        if s_start = '1' then
+            status(1)  <= '1';
+            control(2) <= '0';
+        end if;
+
+        if s_stop = '1' then
+            status(1)  <= '0';
+            control(3) <= '0';
+        end if;
+
+        --timeout
+        if counter = c_zero and s_run = '1' then
+            status(0) <= '1';
+
+            if s_cont = '0' then
+                status(1) <= '0';       -- setting run to 0
+            end if;
         end if;
 
 

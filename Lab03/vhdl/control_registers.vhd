@@ -30,7 +30,7 @@ architecture synth of control_registers is
     constant c_zero : std_logic_vector (31 downto 0) := (others => '0');
 begin
 
-    ipending_reg <= irq and ienable;
+    
     ipending     <= '1' when (status(0) = '1' and (not(ipending_reg = c_zero))) else '0';
 
     main : process(clk, reset_n)
@@ -68,6 +68,9 @@ begin
             if(restore_n = '0') then
                 status(0) <= estatus(0);
             end if;
+
+            -- ipending_reg
+            ipending_reg <= irq and ienable;
 
     end if;
 
