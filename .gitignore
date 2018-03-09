@@ -4,7 +4,9 @@ Lab01/modelsim/
 modelsim/
 
 Lab03/vhdl/work-obj93.cf
-Lab03/quartus/
+Lab03/quartus/*
 Lab03/modelsim/
+
+!Lab03/quartus/ROM.hex
 
 Lab02/ihandler\.asm\.bak
