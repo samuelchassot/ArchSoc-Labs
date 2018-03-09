@@ -63,6 +63,8 @@ begin
       
       
     elsif (rising_edge(clk)) then
+
+        --start stop control
       if s_start = '1' then
         status(1)  <= '1';
         control(2) <= '0';
@@ -71,6 +73,15 @@ begin
       if s_stop = '1' then
         status(1)  <= '0';
         control(3) <= '0';
+      end if;
+
+      --timeout
+    if counter = c_zero and s_run = '1' then
+        status(0) <= '1';
+  
+        if s_cont = '0' then
+          status(1) <= '0';               -- setting run to 0
+        end if;
       end if;
 
       --decrementing counter
@@ -112,14 +123,7 @@ begin
     --start/stop control
 
 
-    --timeout
-    if counter = c_zero and s_run = '1' then
-      status(0) <= '1';
-
-      if s_cont = '0' then
-        status(1) <= '0';               -- setting run to 0
-      end if;
-    end if;
+    
 
 
     

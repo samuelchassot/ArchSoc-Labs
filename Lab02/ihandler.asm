@@ -101,7 +101,9 @@ main:
 	wrctl	status, t0				;enabling interrupts
 	addi 	t0, zero, 5				
 	wrctl	ienable, t0				;enabling interrupts from Timer and buttons
-	addi	t0, zero, 100
+	addi	t0, zero, 0x2FAF
+	slli	t0, t0, 12
+	addi 	t0, t0, 0x80
 	stw		t0, TIMER + 8(zero)		;sets timer period to 100
 	addi	t0, zero, 7
 	stw 	t0, TIMER+4(zero)		;start the timer and set continue
