@@ -10,3 +10,8 @@ Lab03/modelsim/
 !Lab03/quartus/ROM.hex
 
 Lab02/ihandler\.asm\.bak
+
+Lab04/vhdl/work-obj93.cf
+Lab04/quartus/*
+Lab04/modelsim/
+!Lab04/quartus/ROM.hex
