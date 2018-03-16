@@ -15,6 +15,34 @@ stw t0, LFSR(zero)
 
 ; WRITE YOUR CODE AND CONSTANT DEFINITIONS HERE
 
+main:
+    addi   sp, zero, 0x1fff
+    addi   s1, zero, 0x4C
+    slli   s1, s1, 16
+    addi   s1, s1, 0x4B40               ;s1 = 5'000'000
+    add    s0, zero, s1
+    add    a0, zero, zero
+
+
+
+
+loop:
+    addi   s0, s0, -11
+    bge	   zero, s0, increment
+    br     loop
+
+increment:
+    add    s0, s0, s1
+    addi   a0, a0, 1
+    call   display
+    addi   s0, s0, -13
+    br     loop
+
+
+    
+    
+
+
 ; <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 ; DO NOT CHANGE ANYTHING BELOW THIS LINE
 ; <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
