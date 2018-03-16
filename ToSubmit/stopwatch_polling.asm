@@ -27,12 +27,13 @@ main:
 
 
 loop:
-    addi   s0, s0, -11
+    addi   s0, s0, -22
 
     ldw    t0, BUTTON+4(zero)
     stw    zero, BUTTON+4(zero)
-    beq    t0, zero, next
-    
+    andi    t0, t0, 1
+    beq    t0, zero, next	
+    addi   s0, s0, -7
     call spend_time
 next:
     bge	   zero, s0, increment

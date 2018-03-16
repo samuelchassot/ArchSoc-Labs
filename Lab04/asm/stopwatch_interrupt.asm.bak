@@ -5,52 +5,90 @@
 
 .equ    LFSR, RAM
 
-; Variable initialization for spend_time
-addi t0, zero, 18
-stw t0, LFSR(zero)
+br main
+br interrupt_handler
+
+main:
+    ; Variable initialization for spend_time
+    addi t0, zero, 18
+    stw t0, LFSR(zero)
 
 ; <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 ; DO NOT CHANGE ANYTHING ABOVE THIS LINE
 ; <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-; WRITE YOUR CODE AND CONSTANT DEFINITIONS HERE
-
-main:
-    addi   sp, zero, 0x1fff
-    addi   s1, zero, 0x4C
-    slli   s1, s1, 16
-    addi   s1, s1, 0x4B40               ;s1 = 5'000'000
-    add    s0, zero, s1
-    add    s2, zero, zero
-
-
-
+    ; WRITE YOUR CONSTANT DEFINITIONS AND main HERE
+    addi 	sp, zero, 0x1FFF
+	addi	t0,	zero, 1
+	wrctl	status, t0				;enabling interrupts
+	addi 	t0, zero, 5				
+	wrctl	ienable, t0				;enabling interrupts from Timer and buttons
+	addi	t0, zero, 0x4C
+	slli	t0, t0, 16
+	addi 	t0, t0, 0x4B40
+	stw		t0, TIMER + 8(zero)		;sets timer period to 5'000'000
+	addi	t0, zero, 7
+	stw 	t0, TIMER+4(zero)		;start the timer and set continue
+    stw		zero, RAM+4(zero)
+	stw		zero, RAM+8(zero)
+    
 
 loop:
-    addi   s0, s0, -22
-
-    ldw    t0, BUTTON+4(zero)
-    stw    zero, BUTTON+4(zero)
-    andi    t0, t0, 1
-    beq    t0, zero, next	
-    addi   s0, s0, -7
-    call spend_time
-next:
-    bge	   zero, s0, increment
-    br     loop
-
-increment:
-    add    s0, s0, s1
-    addi   s2, s2, 1
-    add    a0, zero, s2
-    call   display
-    addi   s0, s0, -16
-    br     loop
+    ldw 	a0, RAM+4(zero)
+    call display
+	call flip_leds
+	ldw		t0, RAM+8(zero)
+	beq 	t0, zero, loop
+	call 	spend_time
+	stw		zero, RAM+8(zero)
+    br loop
 
 
+
+interrupt_handler:
+    addi	sp, sp, -20
+    stw		s0, 16(sp)
+    stw		t0, 12(sp)
+    stw		t1, 8(sp)
+    stw		t2, 4(sp)
+    stw 	t3, 0(sp)
+
+;look if the timer request an interrupt
+timer_check:
+    rdctl	s0, ipending
+    andi	t1, s0, 1			;isolating timer interrupts
+    addi	t2, zero, 1			;t2 = 1
+    bne		t1, t2,  button_check
+
+timer_irs:
+    ldw		t3, RAM+4(zero)
+	addi 	t3, t3, 1
+	stw		t3, RAM+4(zero)
+	stw		zero, TIMER(zero)	; write 0 in the status register (add = 0) in the TIMER to ACK the IRQ and reset it 
     
-    
 
+;look if the button request an interrupt
+button_check:
+    andi	t1, s0, 4			;isolating button interrupts
+    addi 	t2, zero, 4			;t2 = 4
+    bne 	t1, t2, continue
+	ldw		t1, BUTTON+4(zero)
+	andi	t1, t1, 1
+	beq		t1, zero, continue		
+	addi	t3, zero, 1
+    stw 	t3, RAM+8(zero)
+	
+
+continue:	
+	stw		zero, BUTTON+4(zero)
+    ldw		s0, 16(sp)
+    ldw		t0, 12(sp)
+    ldw		t1, 8(sp)
+    ldw		t2, 4(sp)
+    ldw		t3, 0(sp)
+    addi	sp, sp, 20
+    addi	ea, ea, -4
+    eret
 
 ; <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 ; DO NOT CHANGE ANYTHING BELOW THIS LINE
