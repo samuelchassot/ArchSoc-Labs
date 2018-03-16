@@ -18,9 +18,72 @@ main:
 ; <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
     ; WRITE YOUR CONSTANT DEFINITIONS AND main HERE
+    addi 	sp, zero, 0x1FFF
+	addi	t0,	zero, 1
+	wrctl	status, t0				;enabling interrupts
+	addi 	t0, zero, 5				
+	wrctl	ienable, t0				;enabling interrupts from Timer and buttons
+	addi	t0, zero, 0x4C
+	slli	t0, t0, 16
+	addi 	t0, t0, 0x4B40
+	;addi	t0, zero, 100
+	stw		t0, TIMER + 8(zero)		;sets timer period to 5'000'000
+	addi	t0, zero, 7
+	stw 	t0, TIMER+4(zero)		;start the timer and set continue
+    stw		zero, RAM+4(zero)
+    
+
+loop:
+    ldw 	a0, RAM+4(zero)
+    call display
+    
+    br loop
+
+
 
 interrupt_handler:
-    ; WRITE YOUR INTERRUPT HANDLER HERE
+    addi	sp, sp, -20
+    stw		s0, 16(sp)
+    stw		t0, 12(sp)
+    stw		t1, 8(sp)
+    stw		t2, 4(sp)
+    stw 	t3, 0(sp)
+
+;look if the timer request an interrupt
+timer_check:
+    rdctl	s0, ipending
+    andi	t1, s0, 1			;isolating timer interrupts
+    addi	t2, zero, 1			;t2 = 1
+    bne		t1, t2,  button_check
+
+timer_irs:
+    ldw		t3, RAM+4(zero)
+	addi 	t3, t3, 1
+	stw		t3, RAM+4(zero)
+	stw		zero, TIMER(zero)	; write 0 in the status register (add = 0) in the TIMER to ACK the IRQ and reset it 
+    
+
+;look if the button request an interrupt
+button_check:
+    andi	t1, s0, 4			;isolating button interrupts
+    addi 	t2, zero, 4			;t2 = 4
+    bne 	t1, t2, continue
+    addi    sp, sp, -4
+    stw     ea, 0(sp)
+    call	spend_time
+	stw  	zero, BUTTON+4(zero)
+    ldw     ea, 0(sp)
+    addi    sp, sp, 4
+
+continue:	
+    ldw		s0, 16(sp)
+    ldw		t0, 12(sp)
+    ldw		t1, 8(sp)
+    ldw		t2, 4(sp)
+    ldw		t3, 0(sp)
+    addi	sp, sp, 20
+    addi	ea, ea, -4
+    eret
 
 ; <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 ; DO NOT CHANGE ANYTHING BELOW THIS LINE
