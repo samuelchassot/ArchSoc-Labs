@@ -1,0 +1,189 @@
+Started by user asiatici
+Building in workspace /home/tomcat/.jenkins/workspace/proj01-prelim-grading-swicky
+[proj01-prelim-grading-swicky] $ /bin/sh -xe /var/cache/tomcat/temp/hudson6351100829677620489.sh
++ sh /home/tomcat/.jenkins/lap-resources/testbenches/archord2/proj01/prelim-grading/copyFiles.sh
+/home/tomcat/.jenkins/workspace/proj01-prelim-grading-swicky
+[proj01-prelim-grading-swicky] $ /bin/sh -xe /var/cache/tomcat/temp/hudson5034469817936844330.sh
++ sh /home/tomcat/.jenkins/lap-resources/evaluators/launch-jobs.sh archord2/lab01/final
+
+>> Launching evaluator
+
+>> Generating the work directory
+
+>> Compiling the files...
+Model Technology ModelSim SE-64 vcom 10.5c Compiler 2016.07 Jul 20 2016
+Start time: 10:55:31 on Mar 26,2018
+vcom -2008 -suppress 1514 timer.vhd 
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Compiling entity timer
+-- Compiling architecture synth of timer
+End time: 10:55:31 on Mar 26,2018, Elapsed time: 0:00:00
+Errors: 0, Warnings: 0
+
+>> Compiling the testbenches...
+
+>> Simulating the testbenches...
+
+>> Generating evaluation report
+
+compile => timer_vhd:	
+	Successful compilation
+
+compile => testbenches:	
+	Successful compilation
+
+timer_tb => Read and write:	1 / 1
+	Successful
+
+timer_tb => RUN bit:	0 / 1
+	After a timeout when CONT is '0', the RUN bit should be reset to '0'.
+
+timer_tb => START and STOP bits:	1 / 1
+	Successful
+
+timer_tb => Counting down:	0 / 1
+	After a start, the timer must count down: counter = 13 instead of 12.
+
+timer_tb => Stop:	1 / 1
+	Successful
+
+timer_tb => Continuous mode:	1 / 1
+	Successful
+
+timer_tb => Period loading:	1 / 1
+	Successful
+
+timer_tb => Asynchronous reset:	1 / 1
+	Successful
+
+timer_tb => Writing period stops counting:	1 / 1
+	Successful
+
+timer_tb => TO bit:	0 / 1
+	After the first timeout, the TO bit isn't correct (should be '1').
+
+timer_tb => Interrupt:	1 / 1
+	Successful
+
+You got a score of 8 / 11 (72.7%) on job proj01-prelim-grading-swicky
+
+>> Cleaning the working directory
+
+>> End of evaluation.
+[proj01-prelim-grading-swicky] $ /bin/sh -xe /var/cache/tomcat/temp/hudson8283518675242117255.sh
++ sh /home/tomcat/.jenkins/lap-resources/evaluators/launch-jobs.sh archord2/lab02/final
+
+>> Launching evaluator
+
+>> Compiling the assembly file...
+
+>> Generating the work directory
+
+>> Compiling the files...
+
+>> Compiling the testbenches...
+
+>> Simulating the testbenches...
+
+>> Generating evaluation report
+
+compile => ihandler_asm:	
+	Successful compilation
+
+compile => testbenches:	
+	Successful compilation
+
+ihandler_tb => Init:	1 / 1
+	Successful
+
+ihandler_tb => Counter Loop:	1 / 1
+	Successful
+
+ihandler_tb => Counter Timer:	0 / 1
+	When the timer timed out, the second counter should increment. Counter is 2118286848 instead of 2118286849.
+
+ihandler_tb => Counter Buttons:	0 / 1
+	When bt0 is pressed, the third counter should increment. Counter is 1082016768 instead of 2118286849.
+
+ihandler_tb => Interrupts:	2 / 2
+	Successful
+
+You got a score of 4 / 6 (66.6%) on job proj01-prelim-grading-swicky
+
+>> Cleaning the working directory
+
+>> End of evaluation.
+[proj01-prelim-grading-swicky] $ /bin/sh -xe /var/cache/tomcat/temp/hudson4963793185626569350.sh
++ sh /home/tomcat/.jenkins/lap-resources/evaluators/launch-jobs.sh archord2/lab03/final
+
+>> Launching evaluator
+
+>> Generating the work directory
+
+>> Compiling the files...
+Model Technology ModelSim SE-64 vcom 10.5c Compiler 2016.07 Jul 20 2016
+Start time: 10:55:42 on Mar 26,2018
+vcom -2008 -suppress 1514 control_registers.vhd 
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Compiling entity control_registers
+-- Compiling architecture synth of control_registers
+End time: 10:55:42 on Mar 26,2018, Elapsed time: 0:00:00
+Errors: 0, Warnings: 0
+Model Technology ModelSim SE-64 vcom 10.5c Compiler 2016.07 Jul 20 2016
+Start time: 10:55:42 on Mar 26,2018
+vcom -2008 -suppress 1514 PC.vhd 
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Compiling entity PC
+-- Compiling architecture synth of PC
+End time: 10:55:42 on Mar 26,2018, Elapsed time: 0:00:00
+Errors: 0, Warnings: 0
+
+>> Compiling the testbenches...
+
+>> Simulating the testbenches...
+
+>> Generating evaluation report
+
+compile => control_registers_vhd:	
+	Successful compilation
+
+compile => PC_vhd:	
+	Successful compilation
+
+compile => testbenches:	
+	Successful compilation
+
+control_registers_tb => Write:	1 / 1
+	Successful
+
+control_registers_tb => Backup:	1 / 1
+	Successful
+
+control_registers_tb => Restore:	1 / 1
+	Successful
+
+control_registers_tb => ipending output signal:	0 / 1
+	Unexpected output value for ipending = '1' instead of '0'
+
+control_registers_tb => ipending register:	0 / 1
+	Unexpected output value for rddata = -1431655766 instead of 0
+
+PC_tb => PC:	1 / 1
+	Successful
+
+You got a score of 4 / 6 (66.6%) on job proj01-prelim-grading-swicky
+
+>> Cleaning the working directory
+
+>> End of evaluation.
+Archiving artifacts
+Finished: SUCCESS
