@@ -32,6 +32,8 @@ begin
 
     
     ipending     <= '1' when (status(0) = '1' and (not(ipending_reg = c_zero))) else '0';
+    -- ipending_reg
+    ipending_reg <= irq and ienable;
 
     main : process(clk, reset_n)
     begin
@@ -69,8 +71,6 @@ begin
                 status(0) <= estatus(0);
             end if;
 
-            -- ipending_reg
-            ipending_reg <= irq and ienable;
 
     end if;
 
