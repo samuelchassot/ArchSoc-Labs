@@ -15,3 +15,8 @@ Lab04/vhdl/work-obj93.cf
 Lab04/quartus/*
 Lab04/modelsim/
 !Lab04/quartus/ROM.hex
+
+Lab05/vhdl/work-obj93.cf
+Lab05/quartus/*
+Lab05/modelsim/
+!Lab05/quartus/ROM.hex
