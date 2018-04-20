@@ -1,3 +1,171 @@
 m255
+K4
+z0
 13
 cModel Technology
+Emultiplier
+Z0 w1524211242
+Z1 DPx4 ieee 11 numeric_std 0 22 :ASDNFgHXf_ih3J@9F3Ze1
+Z2 DPx3 std 6 textio 0 22 zE1`LPoLg^DX3Oz^4Fj1K3
+Z3 DPx4 ieee 14 std_logic_1164 0 22 eNV`TJ_GofJTzYa?f<@Oe1
+Z4 dC:/Users/Samuel/Documents/EPFL/BA4/ArchSoc/ArchSocLab01/Lab05/modelsim
+Z5 8C:/Users/Samuel/Documents/EPFL/BA4/ArchSoc/ArchSocLab01/Lab05/vhdl/multiplier.vhd
+Z6 FC:/Users/Samuel/Documents/EPFL/BA4/ArchSoc/ArchSocLab01/Lab05/vhdl/multiplier.vhd
+l0
+L9
+ViA<UF^`bkMTheVgbln[gP2
+!s100 ELoc2n9_0nkzjEfHgW<_60
+Z7 OV;C;10.4d;61
+32
+Z8 !s110 1524211245
+!i10b 1
+Z9 !s108 1524211245.000000
+Z10 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|C:/Users/Samuel/Documents/EPFL/BA4/ArchSoc/ArchSocLab01/Lab05/vhdl/multiplier.vhd|
+Z11 !s107 C:/Users/Samuel/Documents/EPFL/BA4/ArchSoc/ArchSocLab01/Lab05/vhdl/multiplier.vhd|
+!i113 1
+Z12 o-work work -2002 -explicit
+Z13 tExplicit 1
+Acombinatorial
+R1
+R2
+R3
+Z14 DEx4 work 10 multiplier 0 22 iA<UF^`bkMTheVgbln[gP2
+l20
+L16
+VXcNi1eAY<bD@6jzMB2c[i2
+!s100 JIXXKF``QjlC6Ua48FAP?2
+R7
+32
+R8
+!i10b 1
+R9
+R10
+R11
+!i113 1
+R12
+R13
+Emultiplier16
+R0
+R1
+R2
+R3
+R4
+R5
+R6
+l0
+L57
+V3_N>@Y9;ZP=U[1mWb_9dD1
+!s100 ;zb2lPh]MQN;WKRIL[Zmo0
+R7
+32
+R8
+!i10b 1
+R9
+R10
+R11
+!i113 1
+R12
+R13
+Acombinatorial
+R1
+R2
+R3
+Z15 DEx4 work 12 multiplier16 0 22 3_N>@Y9;ZP=U[1mWb_9dD1
+l74
+L64
+Z16 VoL;FFaD[1fkdm0JM;H9d30
+Z17 !s100 gQn<^nYc>c4J4okEI=<581
+R7
+32
+R8
+!i10b 1
+R9
+R10
+R11
+!i113 1
+R12
+R13
+Emultiplier16_pipeline
+R0
+R1
+R2
+R3
+R4
+R5
+R6
+l0
+L85
+V1JJc]=KPZ3c2V3>TUEU;83
+!s100 <^h:f1M;MTWn3J6i[;hjk1
+R7
+32
+R8
+!i10b 1
+R9
+R10
+R11
+!i113 1
+R12
+R13
+Apipeline
+R1
+R2
+R3
+Z18 DEx4 work 21 multiplier16_pipeline 0 22 1JJc]=KPZ3c2V3>TUEU;83
+l104
+L94
+Z19 V`ecFHG4j`JGQSg?LJ81hN3
+Z20 !s100 Ie@Y9hVX_G;22fU[lEa^10
+R7
+32
+R8
+!i10b 1
+R9
+R10
+R11
+!i113 1
+R12
+R13
+Emultiplier_tb
+Z21 w1524206691
+Z22 DPx4 ieee 16 std_logic_textio 0 22 V5TSK`;aJKC<l]CEg1>mz1
+R1
+R2
+R3
+R4
+Z23 8C:/Users/Samuel/Documents/EPFL/BA4/ArchSoc/ArchSocLab01/Lab05/testbench/multiplier_tb.vhd
+Z24 FC:/Users/Samuel/Documents/EPFL/BA4/ArchSoc/ArchSocLab01/Lab05/testbench/multiplier_tb.vhd
+l0
+L7
+V?2jB0Q6]SNCARg70m`3@11
+!s100 Z_OJlIYz1NhbUQlXe^X]^1
+R7
+32
+R8
+!i10b 1
+R9
+Z25 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|C:/Users/Samuel/Documents/EPFL/BA4/ArchSoc/ArchSocLab01/Lab05/testbench/multiplier_tb.vhd|
+Z26 !s107 C:/Users/Samuel/Documents/EPFL/BA4/ArchSoc/ArchSocLab01/Lab05/testbench/multiplier_tb.vhd|
+!i113 1
+R12
+R13
+Abench
+R22
+R1
+R2
+R3
+DEx4 work 13 multiplier_tb 0 22 ?2jB0Q6]SNCARg70m`3@11
+l21
+L10
+VJEz<C_IPUQ<gbcCm5gPcL0
+!s100 zngPU^5>e4P1Y97Ei9lEQ0
+R7
+32
+R8
+!i10b 1
+R9
+R25
+R26
+!i113 1
+R12
+R13
