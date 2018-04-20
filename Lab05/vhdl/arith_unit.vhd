@@ -136,7 +136,7 @@ begin
         );
 
 
-    firstLevel : process( A, B, C, sel )
+    firstLevel : process( A, B, C, sel, sr1,sr2,sr4 )
     begin
     if (sel = '0') then
 
@@ -163,6 +163,7 @@ begin
     
         sA <= "00000000" & A;
         sB <= "00000000" & B;
+        
     if (sel = '0') then
 
         sr3 <= sB;
@@ -172,11 +173,11 @@ begin
 
         m2_in1 <= sr1;
         m2_in2 <= sr2;
-        m2_out <= sr4;
+        sr4 <= m2_out;
 
     end process ; -- firstLevel
 
-    secondLevel : process( A,B,C,sel )
+    secondLevel : process( A,B,C,sel,sl3,sl2,sr3,sr4,sl1,sl4 )
     begin
         m1_in2 <= sl1;
         sl2 <= m1_out;
@@ -187,7 +188,7 @@ begin
 
     end process ; -- secondLevel
 
-    thirdLevel : process( A,B,C,sel )
+    thirdLevel : process( A,B,C,sel,sl4,sl2,sr5,sl6,sl5 )
     begin
 
     if (sel = '0') then
@@ -207,18 +208,18 @@ begin
     end process ; -- thirdLevel
 
 
-    fourthLevel : process( A,B,C,sel )
+    fourthLevel : process( A,B,C,sel,sl7,sr5,sl5,sl6 )
     begin
 
         m3_in1 <= sl5;
         m3_in2 <= sl6;
-        m3_out <= sl7;
+        sl7 <= m3_out;
 
         sr6 <= sr5 + sl7;
 
     end process ; -- fourthLevel
 
-    outMultiplexer : process( A,B,C,sel )
+    outMultiplexer : process( A,B,C,sel,sl7,sr6,start )
     begin
     if (sel = '0') then
         D <= sl7;
@@ -399,6 +400,158 @@ begin
     
 
 end one_stage_pipeline;
+
+architecture one_stage_pipeline2 of arith_unit is
+    component multiplier
+        port(
+            A, B : in  unsigned(7 downto 0);
+            P    : out unsigned(15 downto 0)
+        );
+    end component;
+
+    component multiplier16
+        port(
+            A, B : in  unsigned(15 downto 0);
+            P    : out unsigned(31 downto 0)
+        );
+    end component;
+
+    signal sl1, sr1, sr2 : unsigned(7 downto 0);
+    signal sl2, sl3, sl4, sl51, sl52, sl61, sl62, sr3, sr4, sr51, sr52, sA, sB : unsigned(15 downto 0);
+    signal m1_in2, m2_in1, m2_in2 : unsigned(7 downto 0);
+    signal m1_out, m2_out, m3_in1, m3_in2 : unsigned(15 downto 0);
+    signal sl7, sr6, m3_out : unsigned(31 downto 0);
+    signal start2 : std_logic; 
+    constant five : unsigned(7 downto 0) := "00000101";
+    
+
+begin
+
+    m1 : multiplier port map (
+            A => A,
+            B => m1_in2,
+            P => m1_out
+        );
+
+    m2 : multiplier port map(
+            A => m2_in1,
+            B => m2_in2,
+            P => m2_out
+        );
+
+    m3 : multiplier16 port map(
+            A => m3_in1,
+            B => m3_in2,
+            P => m3_out
+        );
+
+
+    firstLevel : process( A, B, C, sel,sl1, sr1, sr2,sl2, sl3, sl4, sl51, sl52, sl61, sl62, sr3, sr4, sr51, sr52, sA, sB,m1_in2, m2_in1, m2_in2,m1_out, m2_out, m3_in1, m3_in2,sl7, sr6, m3_out)
+    begin
+    if (sel = '0') then
+
+        sl1 <= B;
+        else
+            sl1 <= C;
+    end if ;
+    
+        sl3 <= "00000000" & C;
+        
+    if (sel = '0') then
+
+        sr1 <= five;
+        else
+            sr1 <= B;
+    end if ;
+
+    if (sel = '0') then
+
+        sr2 <= A;
+        else
+            sr2 <= B;
+    end if ;
+    
+        sA <= "00000000" & A;
+        sB <= "00000000" & B;
+    if (sel = '0') then
+
+        sr3 <= sB;
+        else
+            sr3 <= shift_left(sA, 1);
+    end if ;    
+
+        m2_in1 <= sr1;
+        m2_in2 <= sr2;
+        sr4 <= m2_out;
+
+
+        m1_in2 <= sl1;
+        sl2 <= m1_out;
+
+        sl4 <= sl3 + sl2;
+
+        sr51 <= sr4 + sr3;
+
+
+    if (sel = '0') then
+
+        sl51 <= sl4;
+        else
+            sl51 <= sl2;
+    end if ;
+
+    if (sel = '0') then
+
+        sl61 <= sr51;
+        else
+            sl61 <= sl2;
+    end if ;
+        
+    end process ; -- thirdLevel
+
+    register_proc : process( clk, reset_n )
+    begin
+        if(reset_n = '0') then
+            sl52 <= "0000000000000000";
+            sl62 <= "0000000000000000";
+            sr52 <= "0000000000000000";
+            start2 <= '0';
+
+        else if( rising_edge(clk)) then
+            sl52 <= sl51;
+            sl62 <= sl61;
+            sr52 <= sr51;
+            start2 <= start;
+            end if;
+        end if;
+            
+        
+    end process ; -- register_proc
+
+    fourthLevel : process( A,B,C,sel )
+    begin
+
+        m3_in1 <= sl52;
+        m3_in2 <= sl62;
+        sl7 <= m3_out;
+
+        sr6 <= sr52 + sl7;
+
+    if (sel = '0') then
+        D <= sl7;
+        else
+            D <= sr6;
+    end if ;
+
+        done <= start2;
+    end process ; -- outMultiplexer
+
+
+    
+    
+
+end one_stage_pipeline2;
+
 
 -- =============================================================================
 -- ============================ 2 STAGE PIPELINE I =============================
