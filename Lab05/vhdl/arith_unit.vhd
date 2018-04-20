@@ -112,50 +112,101 @@ architecture one_stage_pipeline of arith_unit is
 
     signal sl1, sr1, sr2 : unsigned(7 downto 0);
     signal sl2, sl3, sl4, sl51, sl52, sl61, sl62, sr3, sr4, sr51, sr52, sA, sB : unsigned(15 downto 0);
-    signal sl7, sr6 : unsigned(31 downto 0);
+    signal m1_in2, m2_in1, m2_in2 : unsigned(7 downto 0);
+    signal m1_out, m2_out, m3_in1, m3_in2 : unsigned(15 downto 0);
+    signal sl7, sr6, m3_out : unsigned(31 downto 0);
     signal start2 : std_logic; 
     constant five : unsigned(7 downto 0) := "00000101";
     
 
 begin
+
+    m1 : multiplier port map (
+            A => A,
+            B => m1_in2,
+            P => m1_out
+        );
+
+    m2 : multiplier port map(
+            A => m2_in1,
+            B => m2_in2,
+            P => m2_out
+        );
+
+    m3 : multiplier16 port map(
+            A => m3_in1,
+            B => m3_in2,
+            P => m3_out
+        );
+
+
     firstLevel : process( A, B, C, sel )
     begin
-        sl1 <= B when sel = '0' else C;
+    if (sel = '0') then
+
+        sl1 <= B;
+        else
+            sl1 <= C;
+    end if ;
     
         sl3 <= "00000000" & C;
         
-        sr1 <= five when sel = '0' else B;
-        sr2 <= A when sel = '0' else B;
+    if (sel = '0') then
+
+        sr1 <= five;
+        else
+            sr1 <= B;
+    end if ;
+
+    if (sel = '0') then
+
+        sr2 <= A;
+        else
+            sr2 <= B;
+    end if ;
     
         sA <= "00000000" & A;
         sB <= "00000000" & B;
-        sr3 <= sB when sel = '0' else shift_left(sA, 1);
-    
-        m2 : multiplier port map(
-            A => sr1,
-            B => sr2,
-            P => sr4
-        );
+    if (sel = '0') then
+
+        sr3 <= sB;
+        else
+            sr3 <= shift_left(sA, 1);
+    end if ;    
+
+        m2_in1 <= sr1;
+        m2_in2 <= sr2;
+        m2_out <= sr4;
+
     end process ; -- firstLevel
 
-    secondLevel : process( sensitivity_list )
+    secondLevel : process( A,B,C,sel )
     begin
-        m1 : multiplier port map (
-            A => A,
-            B => sl1,
-            P => sl2
-        );
-        
+        m1_in2 <= sl1;
+        sl2 <= m1_out;
+
         sl4 <= sl3 + sl2;
 
         sr51 <= sr4 + sr3;
 
     end process ; -- secondLevel
 
-    thirdLevel : process( sensitivity_list )
+    thirdLevel : process( A,B,C,sel )
     begin
-        sl51 <= sl4 when sel = '0' else sl2;
-        sl61 <= sr51 when sel = '0' else sl2;
+
+    if (sel = '0') then
+
+        sl51 <= sl4;
+        else
+            sl51 <= sl2;
+    end if ;
+
+    if (sel = '0') then
+
+        sl61 <= sr51;
+        else
+            sl61 <= sl2;
+    end if ;
         
     end process ; -- thirdLevel
 
@@ -179,21 +230,24 @@ begin
     end process ; -- register_proc
 
 
-    fourthLevel : process( sensitivity_list )
+    fourthLevel : process( A,B,C,sel )
     begin
-        m3 : multiplier16 port map(
-            A => sl52,
-            B => sl62,
-            P => sl7
-        );
+
+        m3_in1 <= sl52;
+        m3_in2 <= sl62;
+        m3_out <= sl7;
 
         sr6 <= sr52 + sl7;
 
     end process ; -- fourthLevel
 
-    outMultiplexer : process( sensitivity_list )
+    outMultiplexer : process( A,B,C,sel )
     begin
-        D <= sl7 when sel = '0' else sr6;
+    if (sel = '0') then
+        D <= sl7;
+        else
+            D <= sr6;
+    end if ;
 
         done <= start2;
     end process ; -- outMultiplexer
