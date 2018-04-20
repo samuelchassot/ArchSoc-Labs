@@ -118,27 +118,46 @@ architecture one_stage_pipeline of arith_unit is
     
 
 begin
-    -- left branch of the tree
-    sl1 <= B when sel = '0' else C;
+    firstLevel : process( A, B, C, sel )
+    begin
+        sl1 <= B when sel = '0' else C;
     
-    sl3 <= "00000000" & C;
+        sl3 <= "00000000" & C;
+        
+        sr1 <= five when sel = '0' else B;
+        sr2 <= A when sel = '0' else B;
+    
+        sA <= "00000000" & A;
+        sB <= "00000000" & B;
+        sr3 <= sB when sel = '0' else shift_left(sA, 1);
+    
+        m2 : multiplier port map(
+            A => sr1,
+            B => sr2,
+            P => sr4
+        );
+    end process ; -- firstLevel
 
-    m1 : multiplier port map (
-        A => A,
-        B => sl1,
-        P => sl2
-    );
+    secondLevel : process( sensitivity_list )
+    begin
+        m1 : multiplier port map (
+            A => A,
+            B => sl1,
+            P => sl2
+        );
+        
+        sl4 <= sl3 + sl2;
 
-    sl4 <= sl3 + sl2;
+        sr51 <= sr4 + sr3;
 
-    sl51 <= sl4 when sel = '0' else sl2;
-    sl61 <= sr51 when sel = '0' else sl2;
+    end process ; -- secondLevel
 
-    m3 : multiplier16 port map(
-        A => sl52,
-        B => sl62,
-        P => sl7
-    );
+    thirdLevel : process( sensitivity_list )
+    begin
+        sl51 <= sl4 when sel = '0' else sl2;
+        sl61 <= sr51 when sel = '0' else sl2;
+        
+    end process ; -- thirdLevel
 
     register_proc : process( clk, reset_n )
     begin
@@ -159,30 +178,28 @@ begin
         
     end process ; -- register_proc
 
-    -- right branch of the tree
 
-    sr1 <= five when sel = '0' else B;
-    sr2 <= A when sel = '0' else B;
+    fourthLevel : process( sensitivity_list )
+    begin
+        m3 : multiplier16 port map(
+            A => sl52,
+            B => sl62,
+            P => sl7
+        );
 
-    sA <= "00000000" & A;
-    sB <= "00000000" & B;
-    sr3 <= sB when sel = '0' else shift_left(sA, 1);
+        sr6 <= sr52 + sl7;
 
-    m2 : multiplier port map(
-        A => sr1,
-        B => sr2,
-        P => sr4
-    );
+    end process ; -- fourthLevel
+
+    outMultiplexer : process( sensitivity_list )
+    begin
+        D <= sl7 when sel = '0' else sr6;
+
+        done <= start2;
+    end process ; -- outMultiplexer
+
     
-    sr51 <= sr4 + sr3;
-
-    sr6 <= sr52 + sl7;
-
-    -- final multiplexer
-
-    D <= sl7 when sel = '0' else sr6;
-
-    done <= start2;
+    
 
 end one_stage_pipeline;
 
