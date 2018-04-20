@@ -91,6 +91,149 @@ begin
 
 end combinatorial;
 
+
+architecture combinatorial2 of arith_unit is
+    component multiplier
+        port(
+            A, B : in  unsigned(7 downto 0);
+            P    : out unsigned(15 downto 0)
+        );
+    end component;
+
+    component multiplier16
+        port(
+            A, B : in  unsigned(15 downto 0);
+            P    : out unsigned(31 downto 0)
+        );
+    end component;
+
+    signal sl1, sr1, sr2 : unsigned(7 downto 0);
+    signal sl2, sl3, sl4, sl5, sl6, sr3, sr4, sr5, sA, sB : unsigned(15 downto 0);
+    signal m1_in2, m2_in1, m2_in2 : unsigned(7 downto 0);
+    signal m1_out, m2_out, m3_in1, m3_in2 : unsigned(15 downto 0);
+    signal sl7, sr6, m3_out : unsigned(31 downto 0);
+    constant five : unsigned(7 downto 0) := "00000101";
+    
+
+begin
+
+    m1 : multiplier port map (
+            A => A,
+            B => m1_in2,
+            P => m1_out
+        );
+
+    m2 : multiplier port map(
+            A => m2_in1,
+            B => m2_in2,
+            P => m2_out
+        );
+
+    m3 : multiplier16 port map(
+            A => m3_in1,
+            B => m3_in2,
+            P => m3_out
+        );
+
+
+    firstLevel : process( A, B, C, sel )
+    begin
+    if (sel = '0') then
+
+        sl1 <= B;
+        else
+            sl1 <= C;
+    end if ;
+    
+        sl3 <= "00000000" & C;
+        
+    if (sel = '0') then
+
+        sr1 <= five;
+        else
+            sr1 <= B;
+    end if ;
+
+    if (sel = '0') then
+
+        sr2 <= A;
+        else
+            sr2 <= B;
+    end if ;
+    
+        sA <= "00000000" & A;
+        sB <= "00000000" & B;
+    if (sel = '0') then
+
+        sr3 <= sB;
+        else
+            sr3 <= shift_left(sA, 1);
+    end if ;    
+
+        m2_in1 <= sr1;
+        m2_in2 <= sr2;
+        m2_out <= sr4;
+
+    end process ; -- firstLevel
+
+    secondLevel : process( A,B,C,sel )
+    begin
+        m1_in2 <= sl1;
+        sl2 <= m1_out;
+
+        sl4 <= sl3 + sl2;
+
+        sr5 <= sr4 + sr3;
+
+    end process ; -- secondLevel
+
+    thirdLevel : process( A,B,C,sel )
+    begin
+
+    if (sel = '0') then
+
+        sl5 <= sl4;
+        else
+            sl5 <= sl2;
+    end if ;
+
+    if (sel = '0') then
+
+        sl6 <= sr5;
+        else
+            sl6 <= sl2;
+    end if ;
+        
+    end process ; -- thirdLevel
+
+
+    fourthLevel : process( A,B,C,sel )
+    begin
+
+        m3_in1 <= sl5;
+        m3_in2 <= sl6;
+        m3_out <= sl7;
+
+        sr6 <= sr5 + sl7;
+
+    end process ; -- fourthLevel
+
+    outMultiplexer : process( A,B,C,sel )
+    begin
+    if (sel = '0') then
+        D <= sl7;
+        else
+            D <= sr6;
+    end if ;
+
+        done <= start;
+    end process ; -- outMultiplexer
+
+    
+    
+
+end combinatorial2;
+
 -- =============================================================================
 -- ============================= 1 STAGE PIPELINE ==============================
 -- =============================================================================
