@@ -63,62 +63,59 @@ end multiplier16;
 
 architecture combinatorial of multiplier16 is
 
-    signal pp0, pp1, pp2, pp3, pp4, pp5 ,pp6, pp7, pp8, pp9, pp10, pp11, pp12, pp13, pp14, pp15 : unsigned(31 downto 0);
-    signal pp16, pp17, pp18, pp19, pp20, pp21 ,pp22, pp23, pp24, pp25, pp26, pp27, pp28, pp29 : unsigned(31 downto 0);
-    signal sB : unsigned(31 downto 0);
-    constant zero : unsigned(31 downto 0) := (others => '0');
+    -- 8-bit multiplier component declaration
+    component multiplier
+        port(
+            A, B : in  unsigned(7 downto 0);
+            P    : out unsigned(15 downto 0)
+        );
+    end component;
+
+    signal a1b1, a1b2, a2b1, a2b2 : unsigned(15 downto 0);
+    signal na1b1, na1b2, na2b1, na2b2  : unsigned(31 downto 0);
+    signal a1, a2, b1, b2 : unsigned(7 downto 0);
+
 begin
-    sB <= "0000000000000000" & B;
-    --  first level
-    pp0 <= sB when A(0) = '1' else zero;
-    pp1 <= shift_left(sB, 1) when A(1) = '1' else zero; 
 
-    pp2 <= sB when A(2) = '1' else zero;  
-    pp3 <= shift_left(sB, 1) when A(3) = '1' else zero; 
+	a1 <= A(15 downto 8);
+	a2 <= A(7 downto 0);
+	b1 <= B(15 downto 8);
+	b2 <= B(7 downto 0);
+	
+	m1 : multiplier port map(
+		A => a1,
+		B => b1,
+		P => a1b1
+	);
 
-    pp4 <= sB when A(4) = '1' else zero; 
-    pp5 <= shift_left(sB, 1) when A(5) = '1' else zero; 
+	m2 : multiplier port map(
+		A => a1,
+		B => b2,
+		P => a1b2
+	);
 
-    pp6 <= sB when A(6) = '1' else zero; 
-    pp7 <= shift_left(sB, 1) when A(7) = '1' else zero; 
+	m3 : multiplier port map(
+		A => a2,
+		B => b1,
+		P => a2b1
+	);
 
-    pp8 <= sB when A(8) = '1' else zero;
-    pp9 <= shift_left(sB, 1) when A(9) = '1' else zero; 
+	m4 : multiplier port map(
+		A => a2,
+		B => b2,
+		P => a2b2
+	);
 
-    pp10 <= sB when A(10) = '1' else zero;  
-    pp11 <= shift_left(sB, 1) when A(11) = '1' else zero; 
+	na1b1 <= X"0000" & a1b1;
+	na1b2 <= X"0000" & a1b2;
+	na2b1 <= X"0000" & a2b1;
+	na2b2 <= X"0000" & a2b2;
 
-    pp12 <= sB when A(12) = '1' else zero; 
-    pp13 <= shift_left(sB, 1) when A(13) = '1' else zero; 
 
-    pp14 <= sB when A(14) = '1' else zero; 
-    pp15 <= shift_left(sB, 1) when A(15) = '1' else zero; 
+	P <= shift_left(na1b1, 16) + shift_left(na1b2, 8) + shift_left(na2b1, 8) + na2b2;
 
-    --second level
-    pp16 <= pp0 + pp1;
-    pp17 <= shift_left(pp2 + pp3, 2);
 
-    pp18 <= pp4 + pp5;
-    pp19 <= shift_left(pp6 + pp7, 2);
 
-    pp20 <= pp8 + pp9;
-    pp21 <= shift_left(pp10 + pp11, 2);
-
-    pp22 <= pp12 + pp13;
-    pp23 <= shift_left(pp14 + pp15, 2);
-
-    --third level
-    pp24 <= pp16 + pp17;
-    pp25 <= shift_left(pp18 + pp19, 4);
-    pp26 <= pp20 + pp21;
-    pp27 <= shift_left(pp22 + pp23, 4);
-
-    --fourth level
-    pp28 <= pp24 + pp25;
-    pp29 <= shift_left(pp26 + pp27, 8);
-
-    P <= pp28 + pp29;
-    
 end combinatorial;
 
 -- =============================================================================
@@ -148,5 +145,61 @@ architecture pipeline of multiplier16_pipeline is
         );
     end component;
 
+    signal a1b1, a1b2, a2b1, a2b2 : unsigned(15 downto 0);
+    signal na1b1, na1b2, na2b1, na2b2  : unsigned(31 downto 0);
+    signal a1, a2, b1, b2 : unsigned(7 downto 0);
+
 begin
+
+	a1 <= A(15 downto 8);
+	a2 <= A(7 downto 0);
+	b1 <= B(15 downto 8);
+	b2 <= B(7 downto 0);
+	
+	m1 : multiplier port map(
+		A => a1,
+		B => b1,
+		P => a1b1
+	);
+
+	m2 : multiplier port map(
+		A => a1,
+		B => b2,
+		P => a1b2
+	);
+
+	m3 : multiplier port map(
+		A => a2,
+		B => b1,
+		P => a2b1
+	);
+
+	m4 : multiplier port map(
+		A => a2,
+		B => b2,
+		P => a2b2
+	);
+
+	register_process : process( clk,reset_n )
+	begin
+		if (reset_n = '0') then
+			na1b1 <= X"00000000";
+			na1b2 <= X"00000000";
+			na2b1 <= X"00000000";
+			na2b2 <= X"00000000";
+
+		else
+			if (rising_edge(clk)) then
+			na1b1 <= X"0000" & a1b1;
+			na1b2 <= X"0000" & a1b2;
+			na2b1 <= X"0000" & a2b1;
+			na2b2 <= X"0000" & a2b2;
+			end if ;
+		end if;
+	end process ; -- register_process
+
+	P <= shift_left(na1b1, 16) + shift_left(na1b2, 8) + shift_left(na2b1, 8) + na2b2;
+
+
+
 end pipeline;
