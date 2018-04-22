@@ -142,7 +142,7 @@ begin
         );
 
 
-    pipeline1 : process( A, B, C, sel,sl1, sr1, sr2,sl2, sl3, sl4, sl51, sl52, sl61, sl62, sr3, sr4, sr51, sr52, sA, sB,m1_in2, m2_in1, m2_in2,m1_out, m2_out, m3_in1, m3_in2,sl7, sr6, m3_out)
+    pipeline1 : process(sel, A, B, C, sl1, sl2, sl3, sl4, sl51, sl61, sr1, sr2, sr3, sr4, sr51, m2_out, m1_out)
     begin
     if (sel = '0') then
 
@@ -225,7 +225,7 @@ begin
         
     end process ; -- register_proc
 
-    pipeline2 : process( A, B, C, start2, sel,sl1, sr1, sr2,sl2, sl3, sl4, sl51, sl52, sl61, sl62, sr3, sr4, sr51, sr52, sA, sB,m1_in2, m2_in1, m2_in2,m1_out, m2_out, m3_in1, m3_in2,sl7, sr6, m3_out)
+    pipeline2 : process(sl52, sl62, m3_out, sr52, sl7, sel2, sr6, start2)
     begin
 
         m3_in1 <= sl52;
@@ -298,7 +298,7 @@ begin
         );
 
 
-    pipeline1 : process( A, B, C, sel,sl1, sr1, sr2,sl21, sl22, sl31, sl32, sl4, sl51, sl52, sl61, sl62, sr31, sr32, sr41, sr42, sr51, sr52, sA, sB,m1_in2, m2_in1, m2_in2,m1_out, m2_out, m3_in1, m3_in2,sl7, sr6, m3_out)
+    pipeline1 : process(sel, A, B, C, sl1, sl21, sl31, sr1, sr2, sr31, sr41, m1_out, m2_out)
     begin
     if (sel = '0') then
 
@@ -339,7 +339,7 @@ begin
         sl21 <= m1_out;
     end process; -- pipeline1
     
-    pipeline2 : process( A, B, C, sel,sl1, sr1, sr2,sl21, sl22, sl31, sl32, sl4, sl51, sl52, sl61, sl62, sr31, sr32, sr41, sr42, sr51, sr52, sA, sB,m1_in2, m2_in1, m2_in2,m1_out, m2_out, m3_in1, m3_in2,sl7, sr6, m3_out)
+    pipeline2 : process(sel2, sl22, sl32, sl4, sl51, sl61, sr32, sr42, sr51)
     begin
 
         sl4 <= sl32 + sl22;
@@ -398,7 +398,7 @@ begin
         
     end process ; -- register_proc
 
-    pipeline3 : process( A, B, C, sel,sl1, sr1, sr2,sl21, sl22, sl31, sl32, sl4, sl51, sl52, sl61, sl62, sr31, sr32, sr41, sr42, sr51, sr52, sA, sB,m1_in2, m2_in1, m2_in2,m1_out, m2_out, m3_in1, m3_in2,sl7, sr6, m3_out)
+    pipeline3 :  process(sel3, start3, sl52, sl62, sl7, m3_out, sr52, sr6)
     begin
 
         m3_in1 <= sl52;
