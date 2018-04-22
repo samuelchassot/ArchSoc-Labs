@@ -438,5 +438,151 @@ architecture two_stage_pipeline_2 of arith_unit is
         );
     end component;
 
+    signal sl1, sr1, sr2 : unsigned(7 downto 0);
+    signal sl21,sl22, sl31,sl32, sl4, sl5, sl6, sr31,sr32, sr41,sr42, sr51, sr52, sA, sB : unsigned(15 downto 0);
+    signal m1_in2, m2_in1, m2_in2 : unsigned(7 downto 0);
+    signal m1_out, m2_out, m3_in1, m3_in2 : unsigned(15 downto 0);
+    signal sl7, sr6, m3_out : unsigned(31 downto 0);
+    signal start2, start3, sel2, sel3 : std_logic; 
+    constant five : unsigned(7 downto 0) := "00000101";
+    
+
 begin
+
+    m1 : multiplier port map (
+            A => A,
+            B => m1_in2,
+            P => m1_out
+        );
+
+    m2 : multiplier port map(
+            A => m2_in1,
+            B => m2_in2,
+            P => m2_out
+        );
+
+    m3 : multiplier16_pipeline port map(
+            A => m3_in1,
+            B => m3_in2,
+            P => m3_out,
+            clk => clk,
+            reset_n => reset_n
+        );
+
+
+    pipeline1 : process(sel, A, B, C, sl1, sl21, sl31, sr1, sr2, sr31, sr41, m1_out, m2_out)
+    begin
+    if (sel = '0') then
+
+        sl1 <= B;
+        else
+            sl1 <= C;
+    end if ;
+    
+        
+    if (sel = '0') then
+
+        sr1 <= five;
+        else
+            sr1 <= B;
+    end if ;
+
+    if (sel = '0') then
+
+        sr2 <= A;
+        else
+            sr2 <= B;
+    end if ;
+
+        sl31 <= "00000000" & C;
+        sA <= "00000000" & A;
+        sB <= "00000000" & B;
+    if (sel = '0') then
+
+        sr31 <= sB;
+        else
+            sr31 <= shift_left(sA, 1);
+    end if ;    
+        m2_in1 <= sr1;
+        m2_in2 <= sr2;
+        sr41 <= m2_out;
+
+        m1_in2 <= sl1;
+        sl21 <= m1_out;
+    end process; -- pipeline1
+    
+    pipeline2 : process(sel2, sl22, sl32, sl4, sl5, sl6, sr32, sr42, sr51)
+    begin
+
+        sl4 <= sl32 + sl22;
+
+        sr51 <= sr42 + sr32;
+
+
+    if (sel2 = '0') then
+
+        sl5 <= sl4;
+        else
+            sl5 <= sl22;
+    end if ;
+
+    if (sel2 = '0') then
+
+        sl6 <= sr51;
+        else
+            sl6 <= sl22;
+    end if ;
+        m3_in1 <= sl5;
+        m3_in2 <= sl6;
+        sl7 <= m3_out;
+        
+    end process ; -- thirdLevel
+
+    register_proc : process( clk, reset_n )
+    begin
+        if(reset_n = '0') then
+            sr52 <= "0000000000000000";
+            sl22 <= "0000000000000000";
+            sl32 <= "0000000000000000";
+            sr42 <= "0000000000000000";
+            sr32 <= "0000000000000000";
+            start2 <= '0';
+            start3 <= '0';
+            sel2 <= '0';
+            sel3 <= '0';
+
+        else if( rising_edge(clk)) then
+            sr52 <= sr51;
+            sl22 <= sl21;
+            sl32 <= sl31;
+            sr42 <= sr41;
+            sr32 <= sr31;
+            
+            start3 <= start2;
+            sel3 <= sel2;
+            start2 <= start;
+            sel2 <= sel;
+
+            end if;
+        end if;
+            
+        
+    end process ; -- register_proc
+
+    pipeline3 :  process(sel3, start3, sl7, m3_out, sr52, sr6)
+    begin
+
+
+        sr6 <= sr52 + sl7;
+
+    if (sel3 = '0') then
+        D <= sl7;
+        else
+            D <= sr6;
+    end if ;
+
+        done <= start3;
+    end process ; -- outMultiplexer
+
+
 end two_stage_pipeline_2;
