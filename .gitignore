@@ -35,3 +35,5 @@ Lab07/quartus/incremental_db/
 Lab07/quartus/output_files/
 
 *.tmp
+
+*.qws
