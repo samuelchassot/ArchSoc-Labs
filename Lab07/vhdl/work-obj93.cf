@@ -5,9 +5,9 @@ file / "/Users/simonwicky/Documents/EPFL/Semestre 4/ArchSoC/VM/Lab07/vhdl/pipeli
 file / "/Users/simonwicky/Documents/EPFL/Semestre 4/ArchSoC/VM/Lab07/vhdl/controller.vhd" "20180504072100.000" "20180504092100.541":
   entity controller at 1( 0) + 0 on 29;
   architecture synth of controller at 25( 750) + 0 on 30;
-file / "/Users/simonwicky/Documents/EPFL/Semestre 4/ArchSoC/VM/Lab07/vhdl/PC.vhd" "20180504064740.000" "20180504084740.987":
-  entity pc at 1( 0) + 0 on 23;
-  architecture synth of pc at 21( 613) + 0 on 24;
+file / "/Users/simonwicky/Documents/EPFL/Semestre 4/ArchSoC/VM/Lab07/vhdl/PC.vhd" "20180504091327.000" "20180504111327.756":
+  entity pc at 1( 0) + 0 on 41;
+  architecture synth of pc at 21( 613) + 0 on 42;
 file / "/Users/simonwicky/Documents/EPFL/Semestre 4/ArchSoC/VM/Lab07/vhdl/pipeline_reg_EM.vhd" "20180504072818.000" "20180504092819.222":
   entity pipeline_reg_em at 1( 0) + 0 on 33;
   architecture synth of pipeline_reg_em at 20( 582) + 0 on 34;
