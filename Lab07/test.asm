@@ -10,7 +10,10 @@
 	nop
 	add		t1, t1, t2
 	addi	t3, zero, 3
-	bre		t3, t1, success
+	nop
+	nop
+	nop
+	beq		t3, t1, success
 	nop
 	nop
 	br 		failure

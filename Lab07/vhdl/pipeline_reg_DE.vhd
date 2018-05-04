@@ -37,10 +37,10 @@ entity pipeline_reg_DE is
 end pipeline_reg_DE;
 
 architecture synth of pipeline_reg_DE is
-   constant zero_32 : std_logic_vector(31 downto 0) := others <= '0';
-   constant zero_16 : std_logic_vector(15 downto 0) := others <= '0';
-   constant zero_6 : std_logic_vector(5 downto 0) := others <= '0';
-   constant zero_5 : std_logic_vector(31 downto 0) := others <= '0';
+   constant zero_32 : std_logic_vector(31 downto 0) := (others => '0');
+   constant zero_16 : std_logic_vector(15 downto 0) := (others => '0');
+   constant zero_6 : std_logic_vector(5 downto 0) := (others => '0');
+   constant zero_5 : std_logic_vector(4 downto 0) := (others => '0');
 begin
 
     reg : process( clk, reset_n )

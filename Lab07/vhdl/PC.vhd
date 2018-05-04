@@ -42,9 +42,9 @@ begin
     s_addr_10 <= shift_left(signed(d_imm),2);
 
     if (branch = '1') then
-        s_addr_01 <= signed(e_imm) + 4 + signed(pc_addr);
+        s_addr_00 <= signed(e_imm) + 4 + signed(pc_addr);
     else 
-        s_addr_01 <= s_next_addr + 4;   
+        s_addr_00 <= s_next_addr + 4;   
     end if ;
 
     s_addr_01 <= signed(a) + 4;
