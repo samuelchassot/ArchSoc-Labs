@@ -1,11 +1,9 @@
 main: 
-	;addi	a0,	zero,	data	; a0: Array memory address
-	;addi 	a1,	zero,	2		; a1 : Number of elements
-	call proc
 	addi	a0,	zero,	data	; a0: Array memory address
 	addi 	a1,	zero,	2		; a1 : Number of elements
-	;nop
-	;nop
+	call proc
+	nop
+	nop
 
 end:
 	br	end
@@ -27,21 +25,17 @@ proc_inner:
 	nop
 	andi	t1,	t3,	1			;t1 = t3 & 1
 	add 	v0,	v0,	t1			;v0 = v0 + t1
-	;srli 	t3,	t3,	1			;t3 = t3 >> 1
-	;addi	t4,	t4,	-1			; t4 = t4 -1
-	br		proc_inner			;goto inner
 	srli 	t3,	t3,	1			;t3 = t3 >> 1
 	addi	t4,	t4,	-1			; t4 = t4 -1
-	;nop
-	;nop
+	br		proc_inner			;goto inner
+	nop
+	nop
 proc_next:
-	;addi	t0,	t0,	1			;t0 = t0 + 1
-	;addi 	a0,	a0,	4			;a0 = a0 + 4
-	br		proc_outer			;goto outer
 	addi	t0,	t0,	1			;t0 = t0 + 1
 	addi 	a0,	a0,	4			;a0 = a0 + 4
-	;nop
-	;nop
+	br		proc_outer			;goto outer
+	nop
+	nop
 proc_return:
 	ret 						;return to caller
 	nop

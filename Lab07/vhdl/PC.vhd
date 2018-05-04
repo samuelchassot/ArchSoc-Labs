@@ -4,6 +4,7 @@ use ieee.numeric_std.all;
 
 entity PC is
     port(
+<<<<<<< Updated upstream
         clk       : in  std_logic;
         reset_n   : in  std_logic;
         sel_a     : in  std_logic;
@@ -19,6 +20,23 @@ entity PC is
 end PC;
 
 architecture synth of PC is
+=======
+        clk       : in  std_logic;
+        reset_n   : in  std_logic;
+        sel_a     : in  std_logic;
+        sel_imm   : in  std_logic;
+        branch    : in  std_logic;
+        a         : in  std_logic_vector(15 downto 0);
+        d_imm     : in  std_logic_vector(15 downto 0);
+        e_imm     : in  std_logic_vector(15 downto 0);
+        pc_addr   : in  std_logic_vector(15 downto 0);
+        addr      : out std_logic_vector(15 downto 0);
+        next_addr : out std_logic_vector(15 downto 0)
+    );
+end PC;
+
+architecture synth of PC is
+>>>>>>> Stashed changes
 begin
 
 end synth;
