@@ -35,13 +35,14 @@ failure:
 	nop
 	nop
 	stw		t0, LEDs(zero)
-	br end
-	nop
-	nop
+
 
 
 end:
-	
+	br end 
+	nop
+	nop
+
 
 
 
