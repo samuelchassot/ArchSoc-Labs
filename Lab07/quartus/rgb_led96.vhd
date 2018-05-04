@@ -1,4 +1,7 @@
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
 -- RGB LEDs x96 simple interface
 -- author: xavier.jimenez@epfl.ch
 -- file: rgb_led96.vhd
@@ -276,6 +279,7 @@ begin
         end case;
     end process;
 end architecture;
+<<<<<<< Updated upstream
 =======
 -- RGB LEDs x96 simple interface
 -- author: xavier.jimenez@epfl.ch
@@ -554,4 +558,6 @@ begin
         end case;
     end process;
 end architecture;
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes

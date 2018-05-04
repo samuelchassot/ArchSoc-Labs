@@ -1,4 +1,7 @@
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
 /*
 WARNING: Do NOT edit the input and output ports in this file in a text
 editor if you plan to continue editing the block that represents it in
@@ -99,6 +102,7 @@ agreement for further details.
 		(rectangle (rect 16 16 216 128)(line_width 1))
 	)
 )
+<<<<<<< Updated upstream
 =======
 /*
 WARNING: Do NOT edit the input and output ports in this file in a text
@@ -200,4 +204,6 @@ agreement for further details.
 		(rectangle (rect 16 16 216 128)(line_width 1))
 	)
 )
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes

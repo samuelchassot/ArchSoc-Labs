@@ -1,6 +1,11 @@
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 create_clock -name clk -period 20.000 [get_ports {clk}]
 set_false_path -from [get_ports {in_buttons[0] in_buttons[1] in_buttons[2] in_buttons[3] reset_n rx}]
+=======
+create_clock -name clk -period 20.000 [get_ports {clk}]
+set_false_path -from [get_ports {in_buttons[0] in_buttons[1] in_buttons[2] in_buttons[3] reset_n rx}]
+>>>>>>> Stashed changes
 =======
 create_clock -name clk -period 20.000 [get_ports {clk}]
 set_false_path -from [get_ports {in_buttons[0] in_buttons[1] in_buttons[2] in_buttons[3] reset_n rx}]

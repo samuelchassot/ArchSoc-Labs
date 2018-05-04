@@ -1,4 +1,7 @@
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
 ###############################################################################
 # Ext_DE0_pin_extLED.tcl
 #
@@ -778,6 +781,7 @@ set_location_assignment PIN_J4	 -to 	TDO
 set_location_assignment PIN_J5	 -to 	TMS
                                          
                                          
+<<<<<<< Updated upstream
 =======
 ###############################################################################
 # Ext_DE0_pin_extLED.tcl
@@ -1558,4 +1562,6 @@ set_location_assignment PIN_J4	 -to 	TDO
 set_location_assignment PIN_J5	 -to 	TMS
                                          
                                          
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
