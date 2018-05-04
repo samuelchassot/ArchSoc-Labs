@@ -31,7 +31,7 @@ begin
   inc_address : process(clk, reset_n)
   begin
     if (reset_n = '0') then
-      s_addr <= X"0000";
+      s_next_addr <= X"0000";
     elsif rising_edge(clk) then
         s_next_addr <= s_addr;
     end if;

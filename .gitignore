@@ -21,3 +21,17 @@ Lab05/modelsim/
 Lab05/quartus/db/
 
 Lab05/quartus/
+
+Lab07/quartus/db/
+
+*.qarlog
+
+*.atm
+
+Lab07/quartus/incremental_db/compiled_partitions/
+
+Lab07/quartus/incremental_db/
+
+Lab07/quartus/output_files/
+
+*.tmp
