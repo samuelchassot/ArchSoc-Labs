@@ -1,0 +1,7 @@
+v 3
+file / "/Users/simonwicky/Documents/EPFL/Semestre 4/ArchSoC/VM/Lab07/vhdl/controller.vhd" "20180504072100.000" "20180504092100.541":
+  entity controller at 1( 0) + 0 on 29;
+  architecture synth of controller at 25( 750) + 0 on 30;
+file / "/Users/simonwicky/Documents/EPFL/Semestre 4/ArchSoC/VM/Lab07/vhdl/PC.vhd" "20180504064740.000" "20180504084740.987":
+  entity pc at 1( 0) + 0 on 23;
+  architecture synth of pc at 21( 613) + 0 on 24;

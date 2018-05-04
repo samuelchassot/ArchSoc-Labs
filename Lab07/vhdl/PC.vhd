@@ -19,6 +19,52 @@ entity PC is
 end PC;
 
 architecture synth of PC is
+
+  signal s_addr      : signed(15 downto 0);
+  signal s_next_addr : signed(15 downto 0);
+
+  signal s_addr_00, s_addr_01, s_addr_10 : signed(15 downto 0);
+
 begin
+
+
+  inc_address : process(clk, reset_n)
+  begin
+    if (reset_n = '0') then
+      s_addr <= X"0000";
+    elsif rising_edge(clk) then
+        s_next_addr <= s_addr;
+    end if;
+  end process;  -- inc_address
+
+  sel : process(s_addr_00,s_addr_10,s_addr_01, pc_addr, branch,e_imm,a, d_imm, sel_imm, sel_a)
+  begin
+    s_addr_10 <= shift_left(signed(d_imm),2);
+
+    if (branch = '1') then
+        s_addr_01 <= signed(e_imm) + 4 + signed(pc_addr);
+    else 
+        s_addr_01 <= s_next_addr + 4;   
+    end if ;
+
+    s_addr_01 <= signed(a) + 4;
+
+    if (sel_imm = '0') then
+        if (sel_a = '0') then
+            s_addr <= s_addr_00;
+        else
+            s_addr <= s_addr_01;
+        end if ;
+    else
+        s_addr <= s_addr_10;
+    end if ;
+
+      
+  end process ; -- sel
+
+  addr <= std_logic_vector(s_addr);
+  next_addr <= std_logic_vector(s_next_addr);
+
+
 
 end synth;
