@@ -21,5 +21,22 @@ end pipeline_reg_EM;
 architecture synth of pipeline_reg_EM is
 
 begin
+
+clk_proc : process( clk, reset_n )
+begin
+    if (reset_n = '0') then
+        mux_1_out <= X"00000000";
+        mux_2_out <= "00000";
+        sel_mem_out <='0';
+        rf_wren_out <= '0';
+
+    elsif (rising_edge(clk)) then
+        mux_1_out <= mux_1_in;
+        mux_2_out <= mux_2_in;
+        sel_mem_out <=sel_mem_in;
+        rf_wren_out <= rf_wren_in;
+            
+    end if ;
+end process ; -- clk_proc
    
 end synth;
