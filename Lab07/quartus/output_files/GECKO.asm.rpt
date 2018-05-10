@@ -1,5 +1,5 @@
 Assembler report for GECKO
-Fri May  4 11:45:40 2018
+Thu May 10 14:56:31 2018
 Quartus Prime Version 16.1.0 Build 196 10/24/2016 SJ Lite Edition
 
 
@@ -9,9 +9,10 @@ Quartus Prime Version 16.1.0 Build 196 10/24/2016 SJ Lite Edition
   1. Legal Notice
   2. Assembler Summary
   3. Assembler Settings
-  4. Assembler Generated Files
-  5. Assembler Device Options: GECKO.sof
-  6. Assembler Messages
+  4. Assembler Encrypted IP Cores Summary
+  5. Assembler Generated Files
+  6. Assembler Device Options: GECKO.sof
+  7. Assembler Messages
 
 
 
@@ -38,7 +39,7 @@ agreement for further details.
 +---------------------------------------------------------------+
 ; Assembler Summary                                             ;
 +-----------------------+---------------------------------------+
-; Assembler Status      ; Successful - Fri May  4 11:45:40 2018 ;
+; Assembler Status      ; Successful - Thu May 10 14:56:31 2018 ;
 ; Revision Name         ; GECKO                                 ;
 ; Top-level Entity Name ; GECKO                                 ;
 ; Family                ; Cyclone IV E                          ;
@@ -79,6 +80,16 @@ agreement for further details.
 +-----------------------------------------------------------------------------+----------------+----------------+
 
 
++------------------------------------------------+
+; Assembler Encrypted IP Cores Summary           ;
++--------+------------------------+--------------+
+; Vendor ; IP Core Name           ; License Type ;
++--------+------------------------+--------------+
+; Altera ; Signal Tap (6AF7 BCE1) ; Licensed     ;
+; Altera ; Signal Tap (6AF7 BCEC) ; Licensed     ;
++--------+------------------------+--------------+
+
+
 +---------------------------+
 ; Assembler Generated Files ;
 +---------------------------+
@@ -94,8 +105,8 @@ agreement for further details.
 ; Option         ; Setting            ;
 +----------------+--------------------+
 ; Device         ; EP4CE30F23C8       ;
-; JTAG usercode  ; 0x003FF5EA         ;
-; Checksum       ; 0x003FF5EA         ;
+; JTAG usercode  ; 0x005726B3         ;
+; Checksum       ; 0x005726B3         ;
 +----------------+--------------------+
 
 
@@ -105,15 +116,15 @@ agreement for further details.
 Info: *******************************************************************
 Info: Running Quartus Prime Assembler
     Info: Version 16.1.0 Build 196 10/24/2016 SJ Lite Edition
-    Info: Processing started: Fri May  4 11:45:38 2018
+    Info: Processing started: Thu May 10 14:56:27 2018
 Info: Command: quartus_asm --read_settings_files=on --write_settings_files=off GECKO -c GECKO
 Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
 Info (115031): Writing out detailed assembly data for power analysis
 Info (115030): Assembler is generating device programming files
 Info: Quartus Prime Assembler was successful. 0 errors, 1 warning
-    Info: Peak virtual memory: 828 megabytes
-    Info: Processing ended: Fri May  4 11:45:40 2018
-    Info: Elapsed time: 00:00:02
-    Info: Total CPU time (on all processors): 00:00:02
+    Info: Peak virtual memory: 840 megabytes
+    Info: Processing ended: Thu May 10 14:56:32 2018
+    Info: Elapsed time: 00:00:05
+    Info: Total CPU time (on all processors): 00:00:03
 
 
