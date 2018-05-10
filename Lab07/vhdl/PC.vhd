@@ -32,12 +32,14 @@ begin
   begin
     if (reset_n = '0') then
       s_next_addr <= X"0000";
-    elsif rising_edge(clk) then
+    else
+      if rising_edge(clk) then
         s_next_addr <= s_addr;
+      end if;
     end if;
   end process;  -- inc_address
 
-  sel : process(s_addr_00,s_addr_10,s_addr_01, pc_addr, branch,e_imm,a, d_imm, sel_imm, sel_a)
+  sel : process(s_addr_00,s_addr_10,s_addr_01, pc_addr, branch,e_imm,a, d_imm, sel_imm, sel_a, s_next_addr)
   begin
     s_addr_10 <= shift_left(signed(d_imm),2);
 
