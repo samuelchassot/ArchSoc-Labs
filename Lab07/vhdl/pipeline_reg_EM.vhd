@@ -30,11 +30,13 @@ begin
         sel_mem_out <='0';
         rf_wren_out <= '0';
 
-    elsif (rising_edge(clk)) then
-        mux_1_out <= mux_1_in;
-        mux_2_out <= mux_2_in;
-        sel_mem_out <=sel_mem_in;
-        rf_wren_out <= rf_wren_in;
+    else
+        if (rising_edge(clk)) then
+            mux_1_out <= mux_1_in;
+            mux_2_out <= mux_2_in;
+            sel_mem_out <=sel_mem_in;
+            rf_wren_out <= rf_wren_in;
+        end if;
             
     end if ;
 end process ; -- clk_proc

@@ -61,21 +61,22 @@ begin
             next_addr_out <= zero_16;
         
         
-        elsif(rising_edge(clk)) then
-            a_out <= a_in;
-            b_out <= b_in;
-            d_imm_out <= d_imm_in;
-            sel_b_out <= sel_b_in;
-            op_alu_out <= op_alu_in;
-            read_out <= read_in;
-            write_out <= write_in;
-            sel_pc_out <= sel_pc_in;
-            branch_op_out <= branch_op_in;
-            sel_mem_out <= sel_mem_in;
-            rf_wren_out <= rf_wren_in;
-            mux_out <= mux_in;
-            next_addr_out <= next_addr_in;
-
+        else
+            if(rising_edge(clk)) then
+                a_out <= a_in;
+                b_out <= b_in;
+                d_imm_out <= d_imm_in;
+                sel_b_out <= sel_b_in;
+                op_alu_out <= op_alu_in;
+                read_out <= read_in;
+                write_out <= write_in;
+                sel_pc_out <= sel_pc_in;
+                branch_op_out <= branch_op_in;
+                sel_mem_out <= sel_mem_in;
+                rf_wren_out <= rf_wren_in;
+                mux_out <= mux_in;
+                next_addr_out <= next_addr_in;
+            end if;
         end if;
         
     end process ; -- reg
