@@ -1,0 +1,22 @@
+add t0, zero, zero
+nop
+nop
+nop
+stw t0, 12(zero)
+nop
+nop
+nop
+loop:
+	ldw t0, 12(zero)
+	nop
+	nop
+	nop
+	addi t0, t0, 1
+	nop
+	nop
+	nop
+	stw t0, 12(zero)
+	br loop
+	nop
+	nop
+	

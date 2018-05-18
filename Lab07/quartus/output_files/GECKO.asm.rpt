@@ -1,5 +1,5 @@
 Assembler report for GECKO
-Thu May 10 14:56:31 2018
+Fri May 18 10:06:55 2018
 Quartus Prime Version 16.1.0 Build 196 10/24/2016 SJ Lite Edition
 
 
@@ -39,7 +39,7 @@ agreement for further details.
 +---------------------------------------------------------------+
 ; Assembler Summary                                             ;
 +-----------------------+---------------------------------------+
-; Assembler Status      ; Successful - Thu May 10 14:56:31 2018 ;
+; Assembler Status      ; Successful - Fri May 18 10:06:55 2018 ;
 ; Revision Name         ; GECKO                                 ;
 ; Top-level Entity Name ; GECKO                                 ;
 ; Family                ; Cyclone IV E                          ;
@@ -105,8 +105,8 @@ agreement for further details.
 ; Option         ; Setting            ;
 +----------------+--------------------+
 ; Device         ; EP4CE30F23C8       ;
-; JTAG usercode  ; 0x005726B3         ;
-; Checksum       ; 0x005726B3         ;
+; JTAG usercode  ; 0x004C8DD1         ;
+; Checksum       ; 0x004C8DD1         ;
 +----------------+--------------------+
 
 
@@ -116,15 +116,15 @@ agreement for further details.
 Info: *******************************************************************
 Info: Running Quartus Prime Assembler
     Info: Version 16.1.0 Build 196 10/24/2016 SJ Lite Edition
-    Info: Processing started: Thu May 10 14:56:27 2018
+    Info: Processing started: Fri May 18 10:06:51 2018
 Info: Command: quartus_asm --read_settings_files=on --write_settings_files=off GECKO -c GECKO
 Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
 Info (115031): Writing out detailed assembly data for power analysis
 Info (115030): Assembler is generating device programming files
 Info: Quartus Prime Assembler was successful. 0 errors, 1 warning
-    Info: Peak virtual memory: 840 megabytes
-    Info: Processing ended: Thu May 10 14:56:32 2018
-    Info: Elapsed time: 00:00:05
+    Info: Peak virtual memory: 835 megabytes
+    Info: Processing ended: Fri May 18 10:06:55 2018
+    Info: Elapsed time: 00:00:04
     Info: Total CPU time (on all processors): 00:00:03
 
 
