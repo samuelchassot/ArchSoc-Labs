@@ -1,2 +1,5 @@
 # ArchSocLab01
-first lab of ArchSOC : a hardware timer
+Projects of the "System On Chips' Architecture" at EPFL, during Computer Science Bachelor.
+
+## Team
+
