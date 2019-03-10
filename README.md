@@ -3,3 +3,6 @@ Projects of the "System On Chips' Architecture" at EPFL, during Computer Science
 
 ## Team
 
+Simon Wicky
+
+Samuel Chassot
